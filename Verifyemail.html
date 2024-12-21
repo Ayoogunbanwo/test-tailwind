@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Verify Email</title>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-white">
+
+    <!-- Container -->
+    <div class="w-full max-w-md px-6">
+        <!-- Logo -->
+        <div class="flex justify-center mb-8">
+            <img src="images/Vector.png" alt="Logo" class="h-8">
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-center mb-6">Verify your email</h1>
+
+        <!-- Form -->
+        <form class="space-y-4">
+            <!-- Verification Code Input -->
+            <div>
+                <input type="text" placeholder="Enter verification code" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+
+            <!-- Continue Button -->
+            <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-3 rounded-lg hover:bg-teal-700">
+                Verify
+            </button>
+
+            <!-- Resend Link -->
+            <p class="text-center text-gray-500 text-sm mt-4">
+                Didn't receive the code? <a href="#" class="text-teal-600 hover:underline">Resend</a>
+            </p>
+        </form>
+        <div class="text-center text-slate-600 text-sm font-normal font-['Open Sans'] leading-tight mt-4">A link will be sent to your email to verify your email address.</div>
+    </div>
+
+    <!-- Password Visibility Script -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

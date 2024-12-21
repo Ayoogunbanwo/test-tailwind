@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-white">
+
+    <!-- Container -->
+    <div class="w-full max-w-md px-6">
+        <!-- Logo -->
+        <div class="flex justify-center mb-8">
+            <img src="images/Vector.png" alt="Logo" class="h-8">
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-center mb-6">Create your account</h1>
+
+        <!-- Form -->
+        <form class="space-y-4">
+            <!-- First Name Input -->
+            <div>
+                <input type="text" placeholder="First Name" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+
+            <!-- Last Name Input -->
+            <div>
+                <input type="text" placeholder="Last Name" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+
+            <!-- Password Input with Toggle -->
+            <div class="relative">
+                <input id="password" type="password" placeholder="Password" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-3 flex items-center">
+                    <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-gray-600"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3 7C7.5 19 3.5 15 3.5 12S7.5 5 12 5s8.5 4 8.5 7-4 7-8.5 7z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Role Options -->
+            <div class="text-center mb-4">
+                <p class="text-gray-700 text-sm font-medium mb-2">Please select a category for registration</p>
+                <div class="space-y-2">
+                    <label class="flex items-center w-full">
+                        <input type="radio" name="role" checked class="h-4 w-4 border-gray-300" />
+                        <span class="ml-3 text-gray-700 text-sm">Customer</span>
+                    </label>
+                    <label class="flex items-center w-full">
+                        <input type="radio" name="role" class="h-4 w-4 border-gray-300" />
+                        <span class="ml-3 text-gray-700 text-sm">Driver</span>
+                    </label>
+                    <label class="flex items-center w-full">
+                        <input type="radio" name="role" class="h-4 w-4 border-gray-300" />
+                        <span class="ml-3 text-gray-700 text-sm">Mover</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Continue Button -->
+            <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-3 rounded-lg hover:bg-teal-700">
+                Continue
+            </button>
+
+            <!-- Go Back Link -->
+            <p class="text-center text-gray-500 text-sm mt-4">
+                <a href="/signup.html" class="text-teal-600 hover:underline">Go back</a>
+            </p>
+        </form>
+    </div>
+
+    <!-- Password Visibility Script -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

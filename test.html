@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Driver App</title>
+</head>
+
+<BODY>
+    <!--Navbar-->
+    <nav class="flex justify-between items-center px-7 py-7 bg-white border-b sticky top-0 shadow-md sm:px-4 py-4 z-50">
+        <!-- Logo -->
+        <div class="flex-shrink-0 md:h-5 sm:h-2">
+            <img src="/images/Vector.png" alt="Logo" class="h-8 ">
+        </div>
+        <!--Hamburger Menu for Mobile-->
+        <div class="sm:hidden flex items-center mt-1 my-4 order-last">
+            <button class="hamburger-menu" aria-label="Open navigation menu" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="teal" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16 M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <!--List-->
+        <ul id="mobile-nav"
+            class="hidden flex-col absolute bg-white top-24 left-0 w-full z-10 list-none p-4 font-open text-sm drop-shadow-lg sm:flex sm:items-center sm:flex-row sm:p-0 sm:space-x-2 sm:static sm:top-auto sm:left-auto sm:w-auto sm:bg-transparent sm:drop-shadow-none">
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/index.html"
+                    class="nav-link text-teal-600 font-semibold transition-colors duration-300 hover:text-black sm:text-base md:text-base sm:py-0 focus:outline-none focus:ring-0 active:bg-transparent">
+                    Home
+                </a>
+
+            </li>
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/features"
+                    class="nav-link text-black-600 font-semibold transition-colors duration-300 hover:text-teal-600 sm:text-base md:text-base sm:py-0"
+                    aria-label="Features">Features</a>
+            </li>
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/faq"
+                    class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600 sm:text-base md:text-base sm:py-0"
+                    aria-label="FAQ">FAQ</a>
+            </li>
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/about-us"
+                    class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600 sm:text-base md:text-base sm:py-0"
+                    aria-label="About Us">About</a>
+            </li>
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/contact-us"
+                    class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600 sm:text-base md:text-base sm:py-0"
+                    aria-label="Contact Us">Contact</a>
+            </li>
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/drivers"
+                    class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600 sm:text-base md:text-base sm:py-0"
+                    aria-label="Drivers">Drivers</a>
+            </li>
+            <li class="my-2 sm:my-0 sm:px-1">
+                <a href="/movers"
+                    class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600 sm:text-base md:text-base sm:py-0"
+                    aria-label="Movers">Movers</a>
+            </li>
+        </ul>
+        <!--Nav Buttons-->
+        <div class="hidden md:flex gap-2 items-center">
+            <!-- Register button will be hidden on medium devices and smaller -->
+            <a href="/signup.html"
+                class="register-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-teal-600 text-white transition-all duration-300 hover:bg-teal-600 hover:text-white hover:border-teal-600"
+                aria-label="Register">Get Started</a>
+            <a href="/sigin.html"
+                class="login-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-white text-teal-600 transition-all duration-300 hover:bg-teal-600 hover:text-white hover:border-teal-600"
+                aria-label="Login">Login</a>
+        </div>
+        <!-- On small screens, show logo and login button -->
+        <div class="md:hidden flex items-center gap-2">
+            <a href="/signup.html"
+                class="register-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-teal-600 text-white transition-all duration-300 hover:bg-teal-600 hover:text-white hover:border-teal-600"
+                aria-label="Register">Get Started</a>
+            <a href="/sigin.html"
+                class="login-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-white text-teal-600 transition-all duration-300 hover:bg-teal-600 hover:text-white hover:border-teal-600"
+                aria-label="Login">Login</a>
+        </div>
+
+        </div>
+    </nav>
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.toggle('hidden');
+        }
+    </script>
+
+    <!----Form and Button------>
+
+    <div
+        class="flex flex-col md:flex-row min-h-screen w-full px-4 md:px-2 overflow-x-hidden md:min-h-screen h-100vh bg-white rounded-lg">
+        <!-- Form Section -->
+        <div class="flex-1 p-6 md:p-12">
+            <a href="/index.html" class="text-black-600 text-stone-900 text-base font-open text-base inline-block no-underline mb-6 md:mb-2">
+                &larr; Back to Home
+            </a>
+            <h1
+                class="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-sans font-bold text-center text-stone-900 mb-4 mt-12 md:mt-3">
+                Sign In
+            </h1>
+            <p class="text-gray-600 text-stone-900 text-center text-xs mb-6 mt-4">Welcome to Movers App</p>
+
+            <form action="#" class="flex flex-col mx-4 sm:mx-4 md:mx-12">
+
+                <!-- Email -->
+                <label class="text-gray-700 text-stone-900 text-base font-medium mb-1">Email address</label>
+                <input type="email" placeholder="Email" required
+                    class="p-2 text-zinc-500 text-base border border-gray-300 rounded-lg mb-4 w-full focus:outline-none focus:ring-1 focus:ring-gray-400">
+
+                <!-- Password -->
+                <label class="text-gray-700 text-stone-900 text-base font-medium mb-1">password</label>
+                <div class="relative mb-4">
+                    <input id="password" type="password" placeholder="Password" required
+                        class="p-2 text-zinc-500 text-base border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-gray-400">
+                    <button type="button" onclick="togglePassword()"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6 text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3 7C7.5 19 3.5 15 3.5 12S7.5 5 12 5s8.5 4 8.5 7-4 7-8.5 7z" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="flex justify-between items-center mb-4 px-2 sm:px-2 md:px-2">
+                    <label class="flex items-center text-sm text-gray-800">
+                        <input type="checkbox" class="mr-2 text-stone-900 font-normal md:text-xs"> Remember me
+                    </label>
+                    <a href="/forgotpassword.html"
+                        class="text-sm text-amber-600 text-xs font-medium font-['Inter'] no-underline hover:underline md:text-xs">
+                        Forgot Password?
+                    </a>
+                </div>
+
+
+                <!-- Log In Button -->
+                <button type="submit"
+                    class="bg-teal-600 text-white font-bold py-2 rounded-lg hover:bg-teal-700 w-full mb-6">
+                    Sign in
+                </button>
+
+                <div class="text-center mx-auto text-black text-base">or</div>
+
+                <!-- Google Button -->
+                <div class="flex justify-center items-center w-full">
+                    <button type="submit"
+                        class="flex items-center justify-center bg-white text-gray-600 font-medium py-2 rounded-lg text-base hover:bg-gray-100 active:bg-gray-200 border border-gray-300 shadow-md gap-2 w-full mt-6 focus:ring-2 focus:ring-blue-500">
+                        <img class="w-6 h-6" src="/images/icons8-google-50.png" alt="Google Logo">
+                        <span>Continue with Google</span>
+                    </button>
+                </div>
+
+
+
+
+                <!-- Sign In Link -->
+                <p class="text-center text-gray-600 mt-4 text-sm">
+                    Don’t have an account?
+                    <a href="/signup.html" class=" text-teal-600 font-medium">Sign up</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Image Section (Hidden on Small Screens) -->
+        <div class="hidden md:flex md:flex-1 bg-cover bg-center md:p-4 sm:p-2 lg:p-2"
+            style="background-image: url('/images/Sign_up.png');">
+        </div>
+    </div>
+
+    <!-- JavaScript to Toggle Password Visibility -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.add("text-teal-500");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("text-teal-500");
+            }
+        }
+    </script>
+
+
+
+</BODY>
+
+</HTMl>

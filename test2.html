@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Home</title>
+</head>
+
+<body>
+    
+</body>
+<nav class="flex justify-between items-center px-7 py-4 bg-white border-b sticky top-0 shadow-md sm:px-4 z-50">
+    <!-- Logo -->
+    <div class="flex-shrink-0 md:h-5 sm:h-2">
+        <img src="/images/Vector.png" alt="Logo" class="h-8 block m-0">
+    </div>
+    <!-- Hamburger Menu for Mobile -->
+    <div class="sm:hidden flex items-center mt-1 my-4 order-last">
+        <button class="hamburger-menu" aria-label="Open navigation menu" onclick="toggleMenu()">
+            <svg class="w-6 h-6" fill="teal" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16 M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </div>
+    <!-- List -->
+    <ul id="mobile-nav" class="hidden flex-col absolute bg-white top-24 left-0 w-full z-10 list-none p-4 font-open text-sm drop-shadow-lg sm:flex sm:items-center sm:flex-row sm:p-0 sm:space-x-2 sm:static sm:top-auto sm:left-auto sm:w-auto sm:bg-transparent sm:drop-shadow-none">
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/index.html" class="nav-link text-teal-500 text-base font-semibold transition-colors duration-300 hover:text-black">Home</a>
+        </li>
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/features" class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Features</a>
+        </li>
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/faq" class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">FAQ</a>
+        </li>
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/about-us" class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">About</a>
+        </li>
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/contact-us" class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Contact</a>
+        </li>
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/drivers" class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Drivers</a>
+        </li>
+        <li class="my-2 sm:my-0 sm:px-1">
+            <a href="/movers" class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Movers</a>
+        </li>
+    </ul>
+    <!-- Nav Buttons -->
+    <div class="hidden md:flex gap-2 items-center">
+        <a href="/signup.html" class="register-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-teal-600 text-white transition-all duration-300 hover:bg-teal-600">Get Started</a>
+        <a href="/signin.html" class="login-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-white text-teal-600 transition-all duration-300 hover:bg-teal-600 hover:text-white">Login</a>
+    </div>
+    <div class="md:hidden flex items-center gap-2">
+        <a href="/signup.html" class="register-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-teal-600 text-white transition-all duration-300 hover:bg-teal-600">Get Started</a>
+        <a href="/signin.html" class="login-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-white text-teal-600 transition-all duration-300 hover:bg-teal-600 hover:text-white">Login</a>
+    </div>
+</nav>
+</body>
+</html>

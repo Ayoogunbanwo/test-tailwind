@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Home</title>
+   
+</head>
+<script src="/script.js"></script>
+<body>
+
+    <nav class=" bg-white border-b sticky top-0 shadow-md z-50 p-6">
+        <div class="container mx-auto flex justify-between items-center ">
+            <!-- Logo -->
+            <div class="flex-shrink-0 md:h-5 sm:h-2">
+                <img src="/images/Vector.png" alt="Logo" class="h-8 block m-0">
+            </div>
+            <!-- Hamburger Menu for Mobile -->
+            <div class="sm:hidden flex items-center mt-1 my-4 order-last">
+                <button class="hamburger-menu" aria-label="Open navigation menu" onclick="toggleMenu()">
+                    <svg class="w-6 h-6" fill="teal" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16 M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- List -->
+            <ul id="mobile-nav"
+                class="hidden flex-col absolute bg-white top-24 left-0 w-full z-10 list-none p-4 font-open text-sm drop-shadow-lg sm:flex sm:items-center sm:flex-row sm:p-0 sm:space-x-2 sm:static sm:top-auto sm:left-auto sm:w-auto sm:bg-transparent sm:drop-shadow-none">
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/index.html"
+                        class="nav-link text-teal-500 text-base font-semibold transition-colors duration-300 hover:text-black">Home</a>
+                </li>
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/features"
+                        class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Features</a>
+                </li>
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/faq"
+                        class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">FAQ</a>
+                </li>
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/about-us"
+                        class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">About</a>
+                </li>
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/contact-us"
+                        class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Contact</a>
+                </li>
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/drivers"
+                        class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Drivers</a>
+                </li>
+                <li class="my-2 sm:my-0 sm:px-1">
+                    <a href="/movers"
+                        class="nav-link text-black font-semibold transition-colors duration-300 hover:text-teal-600">Movers</a>
+                </li>
+            </ul>
+            <!-- Nav Buttons -->
+            <div class="hidden md:flex gap-2 items-center">
+                <a href="/signup.html"
+                    class="register-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-teal-600 text-white transition-all duration-300 hover:bg-teal-600">Get
+                    Started</a>
+                <a href="/sigin.html"
+                    class="login-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-white text-teal-600 transition-all duration-300 hover:bg-teal-600 hover:text-white">Login</a>
+            </div>
+            <div class="md:hidden flex items-center gap-2">
+                <a href="/signup.html"
+                    class="register-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-teal-600 text-white transition-all duration-300 hover:bg-teal-600">Get
+                    Started</a>
+                <a href="/sigin.html"
+                    class="login-btn py-2 px-4 text-xs border-2 border-teal-600 rounded-md bg-white text-teal-600 transition-all duration-300 hover:bg-teal-600 hover:text-white">Login</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mx-auto ">
+        <!--Hero Section-->
+        <!-- Hero Content -->
+        <section
+            class="hero flex sm: flex-col md:flex-row lg:flex-row items-center justify-between mx-6 bg-white lg:p-6 md:p-6 md:mt-3 sm:mt-3">
+            <div class="hero-content w-full lg:w-1/2 mb-6 mt-6 lg:mb-0 text-left">
+                <h2 class="text-xl md:text-3xl mb-4 font-bold justify-center"> Simplify Your Move with New
+                    <span class="text-teal-600 font-bold"> Mover App</span>
+                </h2>
+                <p class="text-gray-600 text-sm md:text-base mb-8 lg:mb-16 text-justify pr-3">
+                    Connecting customers with reliable drivers and movers, the New Mover App simplifies the moving
+                    process
+                    with transparent pricing, real-time updates, and professional support for a seamless experience.
+                </p>
+                <div class="buttons flex flex-row gap-4 justify-start">
+                    <a href="/signup.html"
+                        class="btn-primary w-full sm:w-auto bg-teal-600 text-white py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Register
+                    </a>
+                    <a href="#"
+                        class="btn-secondary w-full sm:w-auto bg-white text-teal-600 py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold border-2 border-teal-600 hover:bg-teal-600 hover:text-white transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Learn More
+                    </a>
+                </div>
+
+
+            </div>
+
+            <!-- Image Section -->
+            <div class="hero-image w-full lg:w-1/2 text-center">
+                <img src="images/van-image.jpeg" alt="Moving van with boxes" class="max-w-full h-auto">
+            </div>
+        </section>
+
+
+        <!-- WHY CHOOSE US -->
+
+        <div class="Why-choose-us py-10 px-6 bg-white">
+            <div
+                class="title text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center pt-12">
+                Why Choose Us
+            </div>
+            <div class="features grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="feature p-6 bg-white rounded-lg shadow-lg text-center">
+                    <img src="images/cs.png" alt="Seamless Customer Experience" class="w-full h-auto rounded-lg mb-4">
+                    <h4 class="text-sm sm:text-xl mb-2 font-semibold">Effortless Service</h4>
+                    <p class="text-xs sm:text-sm text-gray-600 hidden md:block">Seamless, smooth, and easy service</p>
+                </div>
+                <div class="feature p-6 bg-white rounded-lg shadow-lg text-center">
+                    <img src="images/driver.png" alt="Reliable Drivers & Movers" class="w-full h-auto rounded-lg mb-4">
+                    <h4 class="text-sm sm:text-xl mb-2 font-semibold">Reliable Drivers</h4>
+                    <p class="text-xs sm:text-sm text-gray-600 hidden md:block">Reliable, punctual, expert drivers
+                        ensured
+                    </p>
+                </div>
+                <div class="feature p-6 bg-white rounded-lg shadow-lg text-center">
+                    <img src="images/money.png" alt="Admin Control" class="w-full h-auto rounded-lg mb-4">
+                    <h4 class="text-sm sm:text-xl mb-2 font-semibold">Dependable Haulers</h4>
+                    <p class="text-xs sm:text-sm text-gray-600 hidden md:block">Professional, timely, and safe movers
+                    </p>
+                </div>
+                <div class="feature p-6 bg-white rounded-lg shadow-lg text-center">
+                    <img src="images/admin.png" alt="Transparent Pricing" class="w-full h-auto rounded-lg mb-4">
+                    <h4 class="text-sm sm:text-xl mb-2 font-semibold">Transparent Pricing</h4>
+                    <p class="text-xs sm:text-sm text-gray-600 hidden md:block">Clear, honest, upfront pricing
+                        guaranteed
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOW IT WORKS -->
+        <div
+            class="title text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center mb-1 pt-12">
+            How it Works</div>
+        <div class="How-itworks bg-white pb-12 px-8 sm:px-8 mx-3 flex justify-center">
+            <div
+                class="container flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0 lg:space-x-6">
+                <!-- Step 1: Customers -->
+                <div class="flex flex-col items-center p-4">
+                    <div
+                    
+                        class="w-60 h-60 border-2 border-teal-500 rounded-full sm:w-60 sm:h-60 md:w-60 md:h-60 lg:w-60 lg:h-60 md:border-4 mb-4">
+                        <img src="images/Wavy_Bus-09_Single-10 1.png" alt="Customer" class="w-full h-full rounded-full">
+                    </div>
+                    <div class="text-center">
+                        <p class="font-semibold">Customers</p>
+                        <p>Post a move request.</p>
+                    </div>
+                </div>
+
+
+                <!-- Arrow -->
+                <div class="arrow text-xl text-orange-600 transform -translate-y-1/2 hidden md:hidden lg:block">
+                    <img src="images/1672149593Curved_solid_arrow 1.png" alt="Arrow">
+                </div>
+
+
+
+                <!-- Step 2: Drivers & Movers -->
+                <div class="flex flex-col items-center p-4">
+                    <div
+                        class="w-60 h-60 border-2 border-teal-500 rounded-full sm:w-60 sm:h-60 md:w-60 md:h-60 lg:w-60 lg:h-60 md:border-4 mb-4">
+                        <img src="images/man-moving-5-stars.png" alt="Drivers & Movers"
+                            class="w-full h-full rounded-full">
+                    </div>
+                    <div class="text-center">
+                        <p class="font-semibold">Drivers & Movers</p>
+                        <p>Accepts request.</p>
+                    </div>
+                </div>
+
+
+
+                <!-- Arrow -->
+                <div class="arrow text-xl text-orange-600 transform -translate-y-1/2 hidden lg:block">
+                    <img src="images/1672149593Curved_solid_arrow 1.png" alt="Arrow">
+                </div>
+
+                <!-- Step 3: Completion -->
+                <div class="flex flex-col items-center p-4">
+                    <div
+                        class="w-60 h-60 border-2 border-teal-500 rounded-full sm:w-60 sm:h-60 md:w-60 md:h-60 lg:w-60 lg:h-60 md:border-4 mb-4">
+                        <img src="images/image 3.png" alt="Payment completion" class="w-full h-full rounded-full">
+                    </div>
+                    <div class="text-center">
+                        <p class="font-semibold">Completion/Payment</p>
+                        <p>Review the service.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Drive Income -->
+        <section
+            class="hero flex sm: flex-col md:flex-row lg:flex-row items-center justify-between mx-6 bg-white lg:p-6 md:p-6 md:mt-3 sm:mt-3">
+            <div class="hero-content w-full lg:w-1/2 mb-6 mt-6 lg:mb-0 text-left">
+                <h2 class="text-xl md:text-3xl mb-4 font-bold justify-center">
+                    <span class="text-teal-600 font-bold">DRIVE</span> YOUR WAY TO EXTRA INCOME!
+                </h2>
+                <p class="text-black text-sm md:text-base mb-8 lg:mb-16 text-justify pr-3">
+                    Turn your driving skills into a steady source of income. With the New Mover App, connect with
+                    customers who need reliable transportation for their moves. Enjoy flexible work hours, fair pay, and
+                    easy-to-use
+                    navigation features to get the job done efficiently. Drive with purpose and earn on your schedule!
+                </p>
+                <div class="buttons flex flex-row gap-4 justify-start">
+                    <a href="/signup.html"
+                        class="btn-primary w-full sm:w-auto bg-teal-600 text-white py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Join as a Driver
+                    </a>
+                    <a href="#"
+                        class="btn-secondary w-full sm:w-auto bg-white text-teal-600 py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold border-2 border-teal-600 hover:bg-teal-600 hover:text-white transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Learn More
+                    </a>
+                </div>
+
+
+            </div>
+
+            <!-- Image Section -->
+            <div class="hero-image w-full lg:w-1/2 text-center">
+                <img src="images/confident-truck-driver-front-semitruck-white-background_924727-125700.jpg"
+                    alt="Moving van with boxes" class="w-full h-auto object-contain">
+            </div>
+
+        </section>
+
+        <!-- Testimonials -->
+        <div class="Group3 relative flex flex-col justify-center text-justify items-center gap-10 px-4 mt-3">
+            <!-- Header Text -->
+            <div
+                class="TestimonialTitle text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center z-40 mt-6 pt-6">
+                Hear from Our Users
+            </div>
+
+            <!-- Background Card -->
+            <div
+                class="Shadow absolute w-[calc(50%+2rem)] h-80 opacity-30 bg-gradient-to-l from-orange-100 to-teal-500 rounded-3xl z-0 transform -translate-x-1/2 left-1/2 shadow-2xl mt-12">
+            </div>
+
+            <!-- Testimonial Cards -->
+            <div
+                class="Frame31 flex gap-6 overflow-x-auto snap-x snap-mandatory pb-6 z-10 scroll-smooth w-full mx-auto mt-10 lg:px-6 md:px-6">
+                <!-- Card 1 -->
+                <div
+                    class="Frame28 flex-shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 max-w-[100%] p-6 bg-teal-500 rounded-2xl flex flex-col justify-start items-start gap-4 shadow-lg snap-start">
+                    <div class="Frame27 flex items-center gap-4">
+                        <img class="Oval w-11 h-11 rounded-full shadow" src="https://via.placeholder.com/43x43"
+                            alt="Jane Cooper Profile" />
+                        <div>
+                            <div class="text-white text-lg font-bold">Jane Cooper</div>
+                            <div class="text-zinc-100 text-sm">Louis Vuitton</div>
+                        </div>
+                    </div>
+                    <p class="text-white text-sm leading-7">
+                        “You made it so simple. My new site is so much faster and easier to work with than my old site.
+                        I
+                        just choose the page, make the change.”
+                    </p>
+                    <img src="/images/favourite-31.svg" alt="star" class="w-12">
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="Frame28 flex-shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 max-w-[100%] p-6 bg-teal-500 rounded-2xl flex flex-col justify-start items-start gap-4 shadow-lg snap-start">
+                    <div class="Frame27 flex items-center gap-4">
+                        <img class="Oval w-11 h-11 rounded-full shadow" src="https://via.placeholder.com/43x43"
+                            alt="Kathryn Murphy Profile" />
+                        <div>
+                            <div class="text-white text-lg font-bold">Kathryn Murphy</div>
+                            <div class="text-zinc-100 text-sm">Starbucks</div>
+                        </div>
+                    </div>
+                    <p class="text-white text-sm leading-7">
+                        “You made it so simple. My new site is so much faster and easier to work with than my old site.
+                        I
+                        just choose the page, make the change.”
+                    </p>
+                    <img src="/images/favourite-31.svg" alt="star" class="w-12">
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="Frame28 flex-shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 max-w-[100%] p-6 bg-teal-500 rounded-2xl flex flex-col justify-start items-start gap-4 shadow-lg snap-start">
+                    <div class="Frame27 flex items-center gap-4">
+                        <img class="Oval w-11 h-11 rounded-full shadow" src="https://via.placeholder.com/43x43"
+                            alt="Cameron Williamson Profile" />
+                        <div>
+                            <div class="text-white text-lg font-bold">Cameron Williamson</div>
+                            <div class="text-zinc-100 text-sm">eBay</div>
+                        </div>
+                    </div>
+                    <p class="text-white text-sm leading-7">
+                        “You made it so simple. My new site is so much faster and easier to work with than my old site.
+                        I
+                        just choose the page, make the change.”
+                    </p>
+                    <img src="/images/favourite-31.svg" alt="star" class="w-12">
+                </div>
+            </div>
+
+            <!-- Footer Text -->
+            <a href="/index.html"
+                class="CheckAllReviews text-center text-black text-base font-semibold font-['Plus Jakarta Sans'] leading-7 z-40 underline mt-4">
+                Check all reviews
+            </a>
+        </div>
+
+
+
+        <!-------- Movers ------>
+
+        <section
+            class="hero flex sm: flex-col md:flex-row lg:flex-row items-center justify-between mx-6 bg-white lg:p-6 md:p-6 md:mt-3 sm:mt-3">
+            <div class="hero-content w-full lg:w-1/2 mb-6 mt-6 lg:mb-0 text-left sm:text-justify sm:text-sm md:text-justify md:text-xl">
+                <h2 class="text-xl md:text-2xl mb-4 font-bold justify-center gap-2">
+                    MAKE EVERY <span class="text-teal-600 font-bold">MOVE</span>
+                    COUNT EARN ON YOUR SCHEDULE
+                </h2>
+
+                <p class="text-black-600 text-sm md:text-base mb-8 lg:mb-16 text-justify pr-3">
+                    Earn extra income on your own terms by helping people move. Whether you're lifting boxes or
+                    assisting with furniture, the New Mover App connects you with nearby customers looking for
+                    dependable movers.
+                </p>
+                <div class="buttons flex flex-row gap-4 justify-start">
+                    <a href="/signup.html"
+                        class="btn-primary w-full sm:w-auto bg-teal-600 text-white py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Join as a Driver
+                    </a>
+                    <a href="#"
+                        class="btn-secondary w-full sm:w-auto bg-white text-teal-600 py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold border-2 border-teal-600 hover:bg-teal-600 hover:text-white transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image Section -->
+            <div class="hero-image w-full lg:w-1/2 text-center lg:pl-6">
+                <div class="relative mx-auto inline-block">
+                    <div class="bg-teal-600 p-4 rounded-full absolute inset-0 m-auto "
+                        style="width: calc(90% - 10px); height: calc(90% - 50px); top: 60px;"></div>
+                    <img src="images/Register_mover.png" alt="Moving van with boxes"
+                        class="max-w-full h-auto relative z-10 rounded-full mt-4" style="width: 90%; height: auto;">
+                </div>
+            </div>
+        </section>
+
+        <!----mobile app coming soon---->
+        <section
+            class="hero flex sm: flex-col md:flex-row lg:flex-row items-center justify-between  sm:bg-white lg:bg-orange-100 md:bg-orange-100 lg:p-6 md:p-6 md:mt-3 sm:mt-3 lg:mx-6 md:mx-6 sm:mx-auto">
+            <div class="hero-content w-full lg:w-1/2 mb-6 mt-6 lg:mb-0 text-center">
+                <div
+                    class="GetMovingToday text-black text-3xl text-left text-justify font-bold font-['Open Sans'] px-8 py-4 lg:text-4xl md:text-2xl sm:text-justify text-center mx-auto">
+                    Get Moving Today
+                </div>
+
+                <p class="text-black-600 text-sm md:text-base mb-8 lg:mb-16 text-justify text-center px-8">
+                    Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move
+                    or a big relocation, we've got you covered. Download the app now to get started or reach out to our
+                    support team for any questions.
+                </p>
+                <div class="buttons flex flex-row gap-4 justify-start px-8">
+                    <a href="#"
+                        class="btn-primary w-full sm:w-auto bg-teal-600 text-white py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 ease-in-out text-center text-xs sm:text-sm">
+                        Download the app
+                    </a>
+
+                </div>
+
+                <div class="buttons flex flex-row gap-4 justify-start mt-6 px-8">
+                    <img class="AppStorePng w-64 h-20 sm:w-32 h-9 sm:justify-center block"
+                        src="/images/Play Store PNG.png" alt="Play Store">
+                    <img class="AppStorePng w-64 h-20 sm:w-32 h-9  sm:justify-center block"
+                        src="/images/App Store PNG.png" alt="App Store">
+                </div>
+
+
+            </div>
+
+            <!-- Image Section -->
+            <div
+                class="hero-image justify-between w-full lg:w-1/2 justify-center text-center lg:pl-6">
+                <div class="relative mx-auto inline-block">
+                    <img class="Main w-96 h-96 justify-center" src="/images/main.png" />
+
+                    <!-- Centering the Logo and Text Vertically -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <div class="LogoDrivewise w-56 h-28 mb-4">
+                            <img src="images/Logo whie - Drivewise.svg" alt="Drivewise Logo">
+                        </div>
+                        <div class="ComingSoon text-center text-white text-4xl font-extrabold font-['Open Sans']">
+                            Coming Soon..
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</BODY>
+
+</HTML>
