@@ -76,3 +76,4 @@ tmp/
 Thumbs.db
 
 .env
+database.env
