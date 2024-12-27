@@ -3,6 +3,8 @@ function toggleMenu() {
     nav.classList.toggle('hidden');
 }
 
+
+
 let lastScrollY = window.scrollY;
 
 window.addEventListener('scroll', () => {
