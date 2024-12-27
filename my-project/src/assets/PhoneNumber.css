@@ -1,0 +1,29 @@
+/* PhoneNumber.css */
+.phone-input-container {
+    width: 100%;
+}
+
+.phone-input {
+    padding: 0.5rem;
+    /* Same as other inputs */
+    border-radius: 0.5rem;
+    /* Tailwind rounded-lg */
+    border: 1px solid #d1d5db;
+    /* Tailwind border-gray-300 */
+    width: 100%;
+}
+
+.phone-input:focus {
+    outline: none;
+    border-color: #14b8a6;
+    /* Tailwind teal-500 */
+    box-shadow: 0 0 0 2px #14b8a6;
+    /* Tailwind focus ring */
+}
+
+.phone-dropdown {
+    border-radius: 0.5rem;
+    /* Rounded dropdown */
+    border: 1px solid #d1d5db;
+    /* Tailwind border-gray-300 */
+}
