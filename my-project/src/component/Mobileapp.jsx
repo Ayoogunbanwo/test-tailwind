@@ -54,8 +54,6 @@ const Appsoon = ({ mainText, descriptionText }) => {
 
 // Prop Validation
 Appsoon.propTypes = {
-  imageSrc: PropTypes.string.isRequired,
-  logoSrc: PropTypes.string.isRequired,
   mainText: PropTypes.string.isRequired,
   descriptionText: PropTypes.string.isRequired,
 };

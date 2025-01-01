@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import logo from "../assets/Vector.png"; 
 
-const Footer = ({ logo }) => {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -9,7 +10,7 @@ const Footer = ({ logo }) => {
       <div className="container max-width-full flex flex-col lg:flex-row p-2 ">
         {/* Company Description */}
             <div className="flex flex-col items-start p-0 md:p-4 lg:p-4 mb-6">
-            <img src={logo.src} alt={logo.alt} className="h-8 block m-0 mb-12" />
+            <img src={logo} alt={logo.alt} className="h-8 block m-0 mb-12" />
             <p className="text-base text-black font-normal font-['Open Sans'] text-justify">
     Connecting customers with reliable drivers and movers, the New Mover App simplifies the moving process with transparent pricing, real-time updates, and professional support for a seamless experience.
 </p>
@@ -83,9 +84,8 @@ const FooterLink = ({ href, children }) => (
 
 Footer.propTypes = {
   logo: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-  }).isRequired,
+    src: PropTypes.string
+  })
 };
 
 FooterSection.propTypes = {

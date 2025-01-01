@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import NavBar from "../component/navbar";
 import Footer from "../component/footer";
 import Feature from "../component/whycooseus-card";
@@ -31,31 +32,13 @@ const images = {
 };
 
 const Home = () => {
-  const logo = {
-    src: logoimage,
-    alt: "Company Logo",
-  };
+const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear the session token
-    sessionStorage.removeItem('sessionToken'); // Ensure the key matches your app's token name
-    // Redirect to the /customer page
-    window.location.href = '/customer';
+    console.log("Logout clicked");
+    // Perform logout actions like clearing tokens or session data
+    navigate("/customer");
   };
-
-  const links = [
-    { href: "/", text: "Home", isActive: true },
-    { href: "/faq", text: "FAQ", isActive: false },
-    { href: "/about-us", text: "About", isActive: false },
-    { href: "/contact-us", text: "Contact", isActive: false },
-    { href: "/driver", text: "Drivers", isActive: false },
-    { href: "/movers", text: "Movers", isActive: false },
-  ];
-
-  const buttons = [
-    { href: "/signup", text: "Get Started", isPrimary: true },
-    { href: "/signin", text: "Login", isPrimary: false },
-  ];
 
   const Herobuttons = [
     { to: "/signup", text: "Register", isPrimary: true },
@@ -72,15 +55,12 @@ const Home = () => {
     { href: "/movers", text: "Learn More", isPrimary: false },
   ];
 
-  const customerhomebuttons = [
-    { text: 'Logout', onClick: handleLogout, isPrimary: false },
-  ];
 
   return (
     <div className="h-screen overflow-auto">
       <header>
-        <NavBar logo={logo} links={links} buttons={buttons} avatar="" />
-      </header>
+              <NavBar isLoggedIn={false} onLogout={handleLogout} />
+            </header>
 
       <main>
         <HeroSection imageSrc={VANIMAGE} buttons={Herobuttons} />
@@ -110,7 +90,7 @@ const Home = () => {
       </main>
 
       <footer>
-        <Footer logo={logo} />
+        <Footer />
       </footer>
     </div>
   );

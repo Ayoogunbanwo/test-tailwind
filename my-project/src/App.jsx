@@ -7,7 +7,7 @@ import Moverspage from './pages/movers';
 import SignUp from './pages/signup';
 import Signin from './pages/signin';
 import VerifyEmail from './pages/verifyemail';
-import AddressAutocomplete from './pages/test';
+import AddressAutocomplete from './pages/emailverification';
 import CreateAccount from './pages/createaccount';
 import ResetPassword from './pages/passwordreset';
 import ForgotPassword from './pages/forgotpassword';
@@ -15,30 +15,39 @@ import ForgotPasswordphone from './pages/forgotpasswordphone';
 import OtpReceived from './pages/recieveOTP';
 import Congratulations from './pages/congratulations';
 import Customerhomepage from './pages/customerhomepage';
+import Userdetails from './pages/emailverification';
+import { UserProvider } from "./config/UserContext";
+import { AuthProvider } from './config/AuthContext';
+import PrivateRoute from "./component/privateroute";
+import ProfileForm from './pages/profile';
 
 function App() {
   return (
     <Router>
       <div>
-        <Routes>
-          <Route path="/" element={<Home />} /> 
-          <Route path="/customer" element={<Customerpage />} /> 
-          <Route path="/driver" element={<Driverpage />} /> 
-          <Route path="/movers" element={<Moverspage />} /> 
-          <Route path="/signup" element={<SignUp />} /> 
-          <Route path="/signin" element={<Signin />} /> 
-          <Route path="/verifyemail" element={<VerifyEmail />} /> 
-          <Route path="/test" element={<AddressAutocomplete />} /> 
-          <Route path="/createaccount" element={<CreateAccount />} /> 
-          <Route path="/passwordreset" element={<ResetPassword />} /> 
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/forgotpasswordphone" element={<ForgotPasswordphone />} /> 
-          <Route path="/recieveOTP" element={<OtpReceived />} />
-          <Route path="/congratulations" element={<Congratulations />} />
-          <Route path="/dashboard" element={<Customerhomepage />} />
-
-
-        </Routes>
+        <UserProvider>
+        <AuthProvider>  
+              <Routes>
+                <Route path="/" element={<Home />} /> 
+                <Route path="/customer" element={<Customerpage />} /> 
+                <Route path="/driver" element={<Driverpage />} /> 
+                <Route path="/movers" element={<Moverspage />} /> 
+                <Route path="/signup" element={<SignUp />} /> 
+                <Route path="/signin" element={<Signin />} /> 
+                <Route path="/verifyemail" element={<VerifyEmail />} /> 
+                <Route path="/test" element={<AddressAutocomplete />} /> 
+                <Route path="/createaccount" element={<CreateAccount />} /> 
+                <Route path="/passwordreset" element={<ResetPassword />} /> 
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/forgotpasswordphone" element={<ForgotPasswordphone />} /> 
+                <Route path="/recieveOTP" element={<OtpReceived />} />
+                <Route path="/congratulations" element={<Congratulations />} />
+                <Route path="/dashboard" element={<Customerhomepage />} />
+              <Route path="/emailverification" element={<Userdetails />} />
+              <Route path="/profile" element={<ProfileForm />} />
+            </Routes>
+            </AuthProvider>
+        </UserProvider>
       </div>
     </Router>
   );

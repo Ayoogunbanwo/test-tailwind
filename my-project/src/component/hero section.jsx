@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-const HeroSection = ({ title, description, imageSrc, buttons }) => {
+const HeroSection = ({ title = (
+  <>
+    Simplify Your Move with New
+    <span className="text-teal-600 font-bold"> Mover App</span>
+  </>
+), description = 'Connecting customers with reliable drivers and movers, the New Mover App simplifies the moving process with transparent pricing, real-time updates, and professional support for a seamless experience.', imageSrc = '/template/images/Vanimage 2.png', buttons }) => {
   return (
     <section className="hero flex flex-col md:flex-row lg:flex-row items-center justify-between bg-white">
       {/* Content Section */}
@@ -44,23 +49,11 @@ HeroSection.propTypes = {
   imageSrc: PropTypes.string,
   buttons: PropTypes.arrayOf(
     PropTypes.shape({
-      to: PropTypes.string.isRequired, // Changed from href to to
+      to: PropTypes.string.isRequired, 
       text: PropTypes.string.isRequired,
       isPrimary: PropTypes.bool.isRequired,
     })
   ).isRequired,
-};
-
-HeroSection.defaultProps = {
-  title: (
-    <>
-      Simplify Your Move with New
-      <span className="text-teal-600 font-bold"> Mover App</span>
-    </>
-  ),
-  description:
-    'Connecting customers with reliable drivers and movers, the New Mover App simplifies the moving process with transparent pricing, real-time updates, and professional support for a seamless experience.',
-  imageSrc: '/template/images/Vanimage 2.png',
 };
 
 export default HeroSection;

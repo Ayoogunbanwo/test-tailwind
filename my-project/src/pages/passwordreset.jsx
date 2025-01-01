@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/truckit.svg";
+import logo from "../assets/Vector.png";
 
 const ResetPassword = () => {
   const [password1Visible, setPassword1Visible] = useState(false);
@@ -17,7 +17,7 @@ const ResetPassword = () => {
         </div>
 
         {/* Heading */}
-        <h1 className="text-2xl font-bold text-center mb-6">Reset Password</h1>
+        <h1 className="text-2xl font-bold text-center mt-8 mb-6">Reset Password</h1>
 
         {/* Form */}
         <form className="space-y-4">

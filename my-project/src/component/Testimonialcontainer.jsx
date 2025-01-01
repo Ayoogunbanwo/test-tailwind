@@ -50,15 +50,4 @@ const Testimonials = () => {
   );
 };
 
-
-Testimonials.propTypes = {
-  testimonials: PropTypes.arrayOf(
-    PropTypes.shape({
-      avatar: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      company: PropTypes.string.isRequired,
-      testimonial: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
 export default Testimonials;

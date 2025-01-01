@@ -2,7 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-const MoverSection = ({ title, description, imageSrc, buttons }) => {
+const MoverSection = ({ 
+  title = (
+    <>MAKE EVERY <span className="text-teal-600 font-bold">MOVE</span> COUNT EARN ON YOUR SCHEDULE</>
+  ), 
+  description = 'Earn extra income on your own terms by helping people move. Whether you are lifting boxes or assisting with furniture, the New Mover App connects you with nearby customers looking for dependable movers.',
+  imageSrc = '/template/images/Vanimage 2.png',
+  buttons 
+}) => {
   return (
     <section className="hero flex flex-col md:flex-row lg:flex-row items-center justify-between bg-white">
       {/* Content Section */}
@@ -29,7 +36,7 @@ const MoverSection = ({ title, description, imageSrc, buttons }) => {
       {/* Image Section */}
       <div className="hero-image flex-1 lg:w-1/2">
         <img
-          src={imageSrc ? imageSrc : '/template/images/Vanimage 2.png'}
+          src={imageSrc}
           alt="Moving van with boxes"
           className="w-full h-auto object-cover"
         />
@@ -49,17 +56,6 @@ MoverSection.propTypes = {
       isPrimary: PropTypes.bool.isRequired,
     })
   ).isRequired,
-};
-
-MoverSection.defaultProps = {
-  title: (
-    <>
-      MAKE EVERY <span className="text-teal-600 font-bold">MOVE</span> COUNT EARN ON YOUR SCHEDULE
-    </>
-  ),
-  description:
-    'Earn extra income on your own terms by helping people move. Whether you are lifting boxes or assisting with furniture, the New Mover App connects you with nearby customers looking for dependable movers.',
-  imageSrc: '/template/images/Vanimage 2.png',
 };
 
 export default MoverSection;

@@ -1,27 +1,43 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import logoimage from "../assets/Vector.png";
 
-const NavBar = ({ logo, links, buttons, avatar, avatarHref }) => {
+const NavBar = ({ isLoggedIn, avatar, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const links = isLoggedIn
+    ? []
+    : [
+        { href: '/', text: 'Home', isActive: true },
+        { href: '/faq', text: 'FAQ', isActive: false },
+        { href: '/about-us', text: 'About', isActive: false },
+        { href: '/contact-us', text: 'Contact', isActive: false },
+        { href: '/driver', text: 'Drivers', isActive: false },
+        { href: '/movers', text: 'Movers', isActive: false },
+      ];
+
+  const buttons = isLoggedIn
+    ? [{ text: 'Logout', isPrimary: true, onClick: onLogout }]
+    : [
+        { href: '/signup', text: 'Get Started', isPrimary: true },
+        { href: '/signin', text: 'Login', isPrimary: false },
+      ];
 
   return (
     <nav className="navbar bg-white shadow-md z-50 p-6" style={{ position: 'sticky', top: 0 }}>
       <div className="flex flex-row justify-between items-center">
         {/* Logo */}
-        <div className="Logo">
-          {logo && (
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              className="h-8 sm:h-6 block m-0"
-            />
-          )}
-        </div>
+       <div className="logo max-w-full max-h-full">
+          <img
+            src={logoimage}
+            alt="Company Logo"
+            className="h-8 sm:h-12 block m-0"
+          />
+      </div>
+
 
         {/* Nav Links */}
         <ul className="ref-list hidden sm:flex gap-3">
@@ -29,11 +45,7 @@ const NavBar = ({ logo, links, buttons, avatar, avatarHref }) => {
             <li key={index} className="my-2 sm:my-0 sm:px-1">
               <Link
                 to={link.href}
-                className={`nav-link text-base font-semibold transition-colors duration-300 ${
-                  link.isActive
-                    ? 'text-teal-500'
-                    : 'text-black hover:text-teal-600'
-                }`}
+                className={`nav-link text-base font-semibold transition-colors duration-300 ${link.isActive ? 'text-teal-500' : 'text-black hover:text-teal-600'}`}
               >
                 {link.text}
               </Link>
@@ -45,25 +57,35 @@ const NavBar = ({ logo, links, buttons, avatar, avatarHref }) => {
         <div className="nav-container flex items-center justify-between gap-4">
           {/* Nav Buttons */}
           <div className="buttons flex gap-2">
-            {buttons.map((button, index) => (
-              <Link
-                key={index}
-                to={button.href}
-                className={`register-btn py-1 px-3 text-xs sm:py-2 sm:px-4 sm:text-sm border-2 rounded-md transition-all duration-300 ${
-                  button.isPrimary
-                    ? 'bg-teal-600 text-white hover:bg-teal-700'
-                    : 'bg-white text-teal-600 hover:bg-teal-600 hover:text-white'
-                }`}
-              >
-                {button.text}
-              </Link>
-            ))}
+            {buttons.map((button, index) =>
+              button.href ? (
+                <Link
+                  key={index}
+                  to={button.href}
+                  className={`py-1 px-3 text-xs sm:py-2 sm:px-4 sm:text-sm border-2 rounded-md transition-all duration-300 ${
+                    button.isPrimary
+                      ? 'bg-teal-600 text-white hover:bg-teal-700'
+                      : 'bg-white text-teal-600 hover:bg-teal-600 hover:text-white'
+                  }`}
+                >
+                  {button.text}
+                </Link>
+              ) : (
+                <button
+                  key={index}
+                  onClick={button.onClick}
+                  className="py-1 px-3 sm:py-2 sm:px-4 bg-teal-600 text-white hover:bg-teal-700 rounded-md"
+                >
+                  {button.text}
+                </button>
+              )
+            )}
           </div>
 
           {/* Avatar */}
-          {avatar && avatarHref && (
+          {isLoggedIn && avatar && (
             <div className="avatar">
-              <Link to={avatarHref}>
+              <Link to="/profile">
                 <img
                   src={avatar}
                   alt="User Avatar"
@@ -74,45 +96,44 @@ const NavBar = ({ logo, links, buttons, avatar, avatarHref }) => {
           )}
 
           {/* Hamburger Menu */}
-          <div className="sm:hidden flex items-center mt-1 order-last">
-            <button
-              className="hamburger-menu"
-              aria-label="Toggle navigation menu"
-              aria-expanded={isMenuOpen ? 'true' : 'false'}
-              onClick={toggleMenu}
-            >
-              <svg
-                className="w-6 h-6"
-                fill="teal"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+          {/* Conditionally render the hamburger only when not logged in */}
+          {!isLoggedIn && (
+            <div className="sm:hidden flex items-center mt-1 order-last">
+              <button
+                className="hamburger-menu"
+                aria-label="Toggle navigation menu"
+                aria-expanded={isMenuOpen ? 'true' : 'false'}
+                onClick={toggleMenu}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            </button>
-          </div>
+                <svg
+                  className="w-6 h-6"
+                  fill="teal"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
+      {isMenuOpen && !isLoggedIn && (
         <ul className="sm:hidden flex flex-col items-start p-4 font-open text-sm bg-white shadow-lg mt-2">
           {links.map((link, index) => (
             <li key={index} className="my-2">
               <Link
                 to={link.href}
                 onClick={toggleMenu}
-                className={`nav-link text-base font-semibold transition-colors duration-300 ${
-                  link.isActive
-                    ? 'text-teal-500'
-                    : 'text-black hover:text-teal-600'
-                }`}
+                className={`nav-link text-base font-semibold transition-colors duration-300 ${link.isActive ? 'text-teal-500' : 'text-black hover:text-teal-600'}`}
               >
                 {link.text}
               </Link>
@@ -125,26 +146,9 @@ const NavBar = ({ logo, links, buttons, avatar, avatarHref }) => {
 };
 
 NavBar.propTypes = {
-  logo: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-  }),
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      href: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      isActive: PropTypes.bool,
-    })
-  ).isRequired,
-  buttons: PropTypes.arrayOf(
-    PropTypes.shape({
-      href: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      isPrimary: PropTypes.bool,
-    })
-  ).isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   avatar: PropTypes.string,
-  avatarHref: PropTypes.string, // added to define where the avatar redirects to
+  onLogout: PropTypes.func.isRequired, // Parent-defined logout function
 };
 
 export default NavBar;

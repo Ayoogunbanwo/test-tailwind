@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import NavBar from "../component/navbar";
 import Footer from "../component/footer";
 import Feature from "../component/whycooseus-card";
-import logoimage from "../assets/Vector.png";
 import Testimonials from "../component/Testimonialcontainer";
 import Movers from "../component/movers";
 import Appsoon from "../component/Mobileapp";
@@ -15,8 +15,7 @@ import img4 from "../assets/admin.png";
 import imgstep1 from "../assets/Wavy_Bus-09_Single-10 1.png";
 import imgstep2 from "../assets/man-moving-5-stars.png";
 import imgstep3 from "../assets/image 3.png";
-import moverimg from "../assets/Moversng.jpg"
-import Appimg from "../assets/Group 4.png"
+import moverimg from "../assets/mvimg.jpg"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
@@ -27,28 +26,19 @@ const images = {
 };
 
 const Moverspage = () => {
-  const logo = {
-    src: logoimage,
-    alt: "Company Logo",
+ 
+const navigate = useNavigate();
+
+
+const handleLogout = () => {
+    console.log("Logout clicked");
+    // Perform logout actions like clearing tokens or session data
+    navigate("/customer");
   };
-
-
-  const links = [
-    { href: "/", text: "Home", isActive: true },
-    { href: "/faq", text: "FAQ", isActive: false },
-    { href: "/about-us", text: "About", isActive: false },
-    { href: "/contact-us", text: "Contact", isActive: false },
-    { href: "/driver", text: "Drivers", isActive: false },
-    { href: "/movers", text: "Movers", isActive: false },
-  ];
-
-  const buttons = [
-    { href: "/signin", text: "Login", isPrimary: true },
-  ];
-
   
-  const Moverbuttons = [
-  { href: "/signup", text: "Start Moving", isPrimary: true },
+
+ const Moverbuttons = [
+  { href: "/signup", text: "Start Moving", isPrimary: false },
 
 ];
 
@@ -56,7 +46,7 @@ const Moverspage = () => {
   return (
 <div className="h-screen overflow-auto">
   <header>
-    <NavBar logo={logo} links={links} buttons={buttons} avatar="" />
+    <NavBar isLoggedIn={false} onLogout={handleLogout} />
   </header>
 
   <main>
@@ -82,7 +72,7 @@ const Moverspage = () => {
   </main>
 
   <footer>
-    <Footer logo={logo} />
+    <Footer />
   </footer>
 </div>
   );

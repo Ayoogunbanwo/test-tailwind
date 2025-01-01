@@ -2,7 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-const DriveIncomeSection = ({ title, description, imageSrc, buttons }) => {
+const DriveIncomeSection = ({ 
+  title = (
+    <>
+      <span className="text-teal-600 font-bold">DRIVE</span> YOUR WAY TO EXTRA INCOME!
+    </>
+  ),
+  description = 
+    'Turn your driving skills into a steady source of income. With the New Mover App, connect with customers who need reliable transportation for their moves. Enjoy flexible work hours, fair pay, and easy-to-use navigation features to get the job done efficiently. Drive with purpose and earn on your schedule!',
+  imageSrc = '/template/images/Vanimage 2.png',
+  buttons
+}) => {
   return (
     <section className="hero flex flex-col md:flex-row lg:flex-row items-center justify-between bg-white">
       {/* Content Section */}
@@ -13,7 +23,7 @@ const DriveIncomeSection = ({ title, description, imageSrc, buttons }) => {
           {buttons.map((button, index) => (
             <Link
               key={index}
-              to={button.href} // Use 'to' for internal links
+              to={button.to} // Use 'to' for internal links
               className={`py-2 px-4 sm:px-6 sm:py-3 rounded-lg font-semibold transition duration-300 ease-in-out text-center text-xs sm:text-sm ${
                 button.isPrimary
                   ? 'bg-teal-600 text-white hover:bg-teal-700'
@@ -44,22 +54,11 @@ DriveIncomeSection.propTypes = {
   imageSrc: PropTypes.string,
   buttons: PropTypes.arrayOf(
     PropTypes.shape({
-      href: PropTypes.string.isRequired, // 'href' now represents the link for internal navigation
+      to: PropTypes.string,
       text: PropTypes.string.isRequired,
       isPrimary: PropTypes.bool.isRequired,
     })
   ).isRequired,
-};
-
-DriveIncomeSection.defaultProps = {
-  title: (
-    <>
-      <span className="text-teal-600 font-bold">DRIVE</span> YOUR WAY TO EXTRA INCOME!
-    </>
-  ),
-  description:
-    'Turn your driving skills into a steady source of income. With the New Mover App, connect with customers who need reliable transportation for their moves. Enjoy flexible work hours, fair pay, and easy-to-use navigation features to get the job done efficiently. Drive with purpose and earn on your schedule!',
-  imageSrc: '/template/images/Vanimage 2.png',
 };
 
 export default DriveIncomeSection;
