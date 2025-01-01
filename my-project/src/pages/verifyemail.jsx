@@ -60,7 +60,7 @@ const VerifyEmail = () => {
           <img src={logo} alt="Logo" className="h-8" />
         </div>
 
-        <h1 className="text-2xl font-bold text-center mb-6">Verify your email</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Reset your email</h1>
 
         <form className="space-y-4" onSubmit={handleResetPassword}>
           <div>
