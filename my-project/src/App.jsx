@@ -20,6 +20,15 @@ import { UserProvider } from "./config/UserContext";
 import { AuthProvider } from './config/AuthContext';
 import PrivateRoute from "./component/privateroute";
 import ProfileForm from './pages/profile';
+import CustomerDashboard from './pages/dashboard3';
+import MoveRequestForm from './pages/Moverequestform';
+import NotificationHistory from './pages/Notification';
+import ServicesSection from './component/Services';
+import ScrollContainer from './component/ScrollContainer';
+import HowItWorks from './component/Workings';
+import FAQ from './pages/FAQ';
+import MoveDetailsPage from './pages/MoveHistory';
+import ProductCarousel from './component/Carousel';
 
 function App() {
   return (
@@ -45,6 +54,16 @@ function App() {
                 <Route path="/dashboard" element={<Customerhomepage />} />
               <Route path="/emailverification" element={<Userdetails />} />
               <Route path="/profile" element={<ProfileForm />} />
+              <Route path="/CustomerDashboard" element={<CustomerDashboard />} />
+              <Route path="/MoveRequestForm" element={<MoveRequestForm />} />
+              <Route path="/Notification" element={<NotificationHistory />} />
+              <Route path="/Services" element={<ServicesSection />} />
+              <Route path="/ScrollContainer" element={<ScrollContainer />} />
+              <Route path="/HowItWorks" element={<HowItWorks />} />
+              <Route path="/FAQ" element={<FAQ />} />
+              <Route path="/MoveHistory" element={<MoveDetailsPage />} />
+              <Route path="/ProductCarousel" element={<ProductCarousel />} />
+
             </Routes>
             </AuthProvider>
         </UserProvider>

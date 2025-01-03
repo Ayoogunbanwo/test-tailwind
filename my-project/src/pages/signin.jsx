@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import signinlogo from '../assets/vector.png';
+import { TruckIcon } from 'lucide-react';
 import googlelogo from '../assets/icons8-google-50.png';
 import useAuth from "../config/hooks/useAuth";
 import useUser from "../config/hooks/useUser";
-import { auth } from '../config/firebase'; // Import auth instance directly
+import { auth } from '../config/firebase';
 import { setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 
 // Validation functions
@@ -55,14 +55,14 @@ const SignIn = () => {
       console.log("User signed in", currentUser);
       
       // Update user context if needed
-      //setUser(currentUser);
+      setUser(currentUser);
 
       // Clear form
       setEmail("");
       setPassword("");
       
       // Navigate to dashboard
-      navigate("/dashboard");
+      navigate("/CustomerDashboard");
     } catch (error) {
       console.error("Signin failed:", error);
       setError(error.message || "Signin failed, please try again.");
@@ -84,7 +84,7 @@ const SignIn = () => {
       if (result.user) {
         console.log("Google login successful:", result.user);
         setUser(result.user);
-        navigate("/dashboard");
+        navigate("/CustomerDashboard");
       }
     } catch (error) {
       console.error("Error during Google sign-in:", error);
@@ -95,54 +95,65 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white p-8">
-      <div className="w-full max-w-md px-6">
-        <div className="flex justify-center">
-          <img src={signinlogo} alt="Logo" className="max-w-full max-h-full p-8" />
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-teal-50 to-blue-50 p-8">
+      <div className="w-full max-w-md px-6 py-8 bg-white rounded-xl shadow-lg">
+        {/* Updated Logo Section */}
+        <div className="flex justify-center mb-6">
+          <Link to="#" className="flex items-center gap-3 group">
+              <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transform transition-transform group-hover:rotate-12">
+                <TruckIcon className="h-6 w-6 text-white" />
+              </div>
+              <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
+                Truckit
+              </span>
+              </Link>
         </div>
 
-        <h1 className="text-2xl font-bold text-center mb-6">Sign in</h1>
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Sign In</h1>
 
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
-        <form onSubmit={handleSignin} className="space-y-4">
+        <form onSubmit={handleSignin} className="space-y-6">
           <div>
-            <label className="block text-base font-medium text-gray-700">
+            <label htmlFor="email" className="block text-base font-medium text-gray-700">
               Email address
             </label>
             <input
+              id="email"
               type="email"
               placeholder="Email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`p-2 text-base border ${
-                email && !validateEmail(email) ? 'border-red-500' : 'border-gray-300'
-              } rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-gray-400`}
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 ${
+                email && !validateEmail(email) ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-teal-500"
+              }`}
             />
           </div>
 
           <div>
-            <label className="block text-base font-medium text-gray-700">
+            <label htmlFor="password" className="block text-base font-medium text-gray-700">
               Password
             </label>
             <div className="relative">
               <input
+                id="password"
                 type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className={`p-2 text-base border ${
-                  password && !validatePassword(password) ? 'border-red-500' : 'border-gray-300'
-                } rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-gray-400`}
+                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 ${
+                  password && !validatePassword(password) ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-teal-500"
+                }`}
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute top-2 right-2 text-sm text-teal-500 hover:underline"
+                className="absolute top-3 right-3 text-sm text-teal-600 hover:text-teal-700"
+                aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
               >
-                {isPasswordVisible ? 'Hide' : ''}
+                {isPasswordVisible ? 'Hide' : 'Show'}
               </button>
             </div>
           </div>
@@ -153,7 +164,7 @@ const SignIn = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="form-checkbox text-teal-600"
+                className="form-checkbox h-4 w-4 text-teal-600 rounded focus:ring-teal-500"
               />
               <span className="text-sm text-gray-700">Remember Me</span>
             </label>
@@ -165,33 +176,34 @@ const SignIn = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-teal-600 text-white font-bold py-2 rounded-lg hover:bg-teal-700 w-full disabled:bg-teal-300 disabled:cursor-not-allowed"
+            className={`${
+              loading ? "bg-teal-300 cursor-not-allowed" : "bg-teal-600 hover:bg-teal-700"
+            } text-white font-bold py-3 rounded-lg w-full transition duration-300`}
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">or</span>
-            </div>
+          <div className="flex items-center justify-center my-6">
+            <div className="border-t border-gray-300 flex-grow"></div>
+            <span className="mx-4 text-gray-500 text-sm">or</span>
+            <div className="border-t border-gray-300 flex-grow"></div>
           </div>
 
           <button
             type="button"
             disabled={loading}
             onClick={handleGoogleLogin}
-            className="flex items-center justify-center w-full px-4 py-2 space-x-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className={`${
+              loading ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-50"
+            } flex items-center justify-center text-gray-700 font-medium py-3 rounded-lg text-base border border-gray-300 shadow-sm gap-2 w-full transition duration-300`}
           >
             <img src={googlelogo} alt="Google Logo" className="w-6 h-6" />
             <span>Sign in with Google</span>
           </button>
 
-          <p className="text-center text-gray-600 mt-4">
+          <p className="text-center text-gray-600 mt-6 text-sm">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-teal-600 font-medium hover:underline">
+            <Link to="/signup" className="text-teal-600 font-medium hover:text-teal-700">
               Sign up
             </Link>
           </p>

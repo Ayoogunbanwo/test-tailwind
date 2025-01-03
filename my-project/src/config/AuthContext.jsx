@@ -15,6 +15,7 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth';
 import {auth} from './firebase';
+import { Move } from 'lucide-react';
 
 // Create context
 export const AuthContext = createContext({
@@ -133,10 +134,7 @@ const signupWithEmail = async (email, password, navigate) => {
 };
 
 
-
-
-
-    // Signin with email and password
+// Signin with email and password
     const signinWithEmail = async (email, password) => {
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
@@ -147,7 +145,9 @@ const signupWithEmail = async (email, password, navigate) => {
         }
     };
 
-    // Handle Google Authentication
+
+
+// Handle Google Authentication
     const handleGoogleAuth = async () => {
         
         try {
@@ -216,7 +216,7 @@ const handleGoogleSignin = async () => {
 
     // If email exists, redirect to dashboard
     console.log("Email found, redirecting to dashboard...");
-    navigate("/dashboard");
+    navigate("/CustomerDashboard");
     return { result, error: null };
     
   } catch (error) {
@@ -248,6 +248,10 @@ const saveUserToFirestore = async (user) => {
 };
 
 
+  
+  
+
+  
 const updateUserInFirestore = async (user, formData) => {
   const userRef = doc(db, "users", user.uid); // Reference to the user's document
 
@@ -266,14 +270,21 @@ const updateUserInFirestore = async (user, formData) => {
     const verifyEmail = () => sendEmailVerification(auth.currentUser);
     const resetPassword = (email) => sendPasswordResetEmail(auth, email);
     const updateUserPassword = (newPassword) => updatePassword(auth.currentUser, newPassword);
-    const signout = async () => {
+    
+      const signout = async () => {
         try {
-            await signOut(auth);
-            setUser(null); // Clear user state on sign-out
+          localStorage.removeItem('authToken');
+          await signOut(auth);
+          setUser(null);
+
+          window.location.href = '/signin';
         } catch (error) {
-            console.error("Error during sign-out:", error);
+          console.error('Error during sign-out:', error);
+          alert('Failed to sign out. Please try again.');
         }
-    };
+  };
+  
+  
     const checkEmailProviders = (email) => fetchSignInMethodsForEmail(auth, email);
 
     // Monitor authentication state

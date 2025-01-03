@@ -25,8 +25,8 @@ const Testimonials = () => {
   ];
 
   return (
-    <div className="Group3 relative flex flex-col justify-center text-justify items-center gap-10 px-4 mt-3">
-      <div className="TestimonialTitle text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center z-40 mt-6 pt-6">
+    <div className="Group3 relative flex flex-col justify-center text-justify items-center gap-10 px-4 ">
+      <div className="TestimonialTitle text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center z-40  pt-6">
         Hear from Our Users
       </div>
       <div className="Shadow absolute w-[calc(50%+2rem)] h-80 opacity-30 bg-gradient-to-l from-orange-100 to-teal-500 rounded-3xl z-0 transform -translate-x-1/2 left-1/2 shadow-2xl mt-12"></div>
