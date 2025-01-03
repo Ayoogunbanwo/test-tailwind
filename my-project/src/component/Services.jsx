@@ -19,22 +19,22 @@ const ServicesSection = () => {
   const services = [
     {
       title: 'Reliable Drivers',
-      description: 'Connect with trusted and experienced drivers for your moving needs.',
+      description: 'Connect with trusted & experienced drivers for your moving needs',
       icon: '🚚',
     },
     {
       title: 'Transparent Pricing',
-      description: 'Get upfront and clear pricing with no hidden fees.',
+      description: 'Get upfront and clear pricing with no hidden fees',
       icon: '💵',
     },
     {
       title: 'Real-Time Updates',
-      description: 'Stay informed with real-time tracking and updates on your move.',
+      description: 'Stay informed with real-time tracking and updates on your move',
       icon: '📱',
     },
     {
       title: 'Dependable Haulers',
-      description: 'Professional, timely, and safe movers for all your hauling needs.',
+      description: 'Professional, timely, and safe movers for all your hauling needs',
       icon: '🛠️',
     },
   ];
@@ -65,7 +65,7 @@ const ServicesSection = () => {
             className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto"
             variants={fadeInUp}
           >
-            We offer a range of services to make your moving experience seamless and stress-free.
+            We offer a range of services to make your moving experience seamless.
           </motion.p>
         </motion.div>
 

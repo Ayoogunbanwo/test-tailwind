@@ -1,132 +1,66 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Truck, Shield, Clock, CreditCard } from 'lucide-react';
+import img from '../assets/Dashboard.jpg';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Particles from '@tsparticles/react';
-import { loadSlim } from '@tsparticles/slim';
 
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
-
-const staggerChildren = {
-  visible: { transition: { staggerChildren: 0.2 } },
-};
-
-const HeroSection = ({ title, description, buttons }) => {
+export default function Hero() {
   return (
-    <section className="hero min-h-[70vh] flex flex-col items-center justify-center py-8 px-6 lg:px-12 relative overflow-hidden bg-gradient-to-br from-teal-50 to-teal-100">
-      {/* Particle Background */}
-      <div className="absolute inset-0 z-0">
-        <Particles
-          id="tsparticles"
-          init={loadSlim}
-          options={{
-            particles: {
-              number: { value: 30 }, // Reduced number of particles
-              color: { value: '#0d9488' },
-              opacity: { value: 0.3 }, // More subtle opacity
-              size: { value: 3 },
-              move: { enable: true, speed: 1.5 }, // Slower movement
-            },
-          }}
-        />
-      </div>
-
-      {/* Content Section */}
-      <motion.div
-        className="hero-content text-center z-10 max-w-4xl"
-        variants={staggerChildren}
-        initial="hidden"
-        animate="visible"
-      >
-        {title && (
-          <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900"
-            variants={fadeInUp}
-          >
-            {title}
-          </motion.h1>
-        )}
-        {description && (
-          <motion.p
-            className="text-gray-600 text-base md:text-lg mb-8 max-w-2xl mx-auto"
-            variants={fadeInUp}
-          >
-            {description}
-          </motion.p>
-        )}
-        <motion.div
-          className="buttons flex flex-row gap-4 justify-center"
-          variants={staggerChildren}
-        >
-          {buttons.map((button, index) => (
-            <motion.div key={index} variants={fadeInUp}>
-              <Link
-                to={button.to}
-                className={`py-2.5 px-6 sm:px-8 rounded-full font-semibold transition duration-300 ease-in-out text-center text-sm sm:text-base shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center min-w-[150px] ${
-                  button.isPrimary
-                    ? 'bg-teal-600 text-white hover:bg-teal-700'
-                    : 'bg-white text-teal-600 border-2 border-teal-600 hover:bg-teal-600 hover:text-white'
-                }`}
-              >
-                {button.text}
-                {button.icon && <span className="text-lg">{button.icon}</span>} {/* Add icons if needed */}
+    <div className="relative bg-gradient-to-br from-white to-teal-50 mt-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+        <div className="grid lg:grid-cols-2 gap-12 items-center py-16">
+          <div className="space-y-8">
+            <h3 className="text-5xl font-bold bg-gradient-to-r from-teal-700 to-teal-500 bg-clip-text text-transparent mb-4">
+              Moving Made Simple
+            </h3>
+            
+            <p className="text-gray-600 text-lg">
+              Your reliable partner for hassle-free moving and delivery
+            </p>
+            
+            <div className="flex flex-wrap gap-4">
+              <Link to="/signin">
+                <button className="bg-teal-500 text-white px-8 py-3 rounded-full hover:bg-teal-600 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                  Book a Move
+                </button>
               </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10"
-        initial={{ opacity: 0, y: 0 }}
-        animate={{ opacity: 1, y: [0, 8, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <div className="w-5 h-5 border-2 border-teal-600 rounded-full animate-bounce"></div>
-      </motion.div>
-    </section>
+              <Link to="/driver">
+                <button className="border-2 border-teal-500 text-teal-500 px-8 py-3 rounded-full hover:bg-teal-50 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                  Join as Driver
+                </button>
+              </Link>
+              </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-12">
+              <div className="text-center p-4 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300">
+                <Clock className="w-8 h-8 text-teal-500 mx-auto mb-2" />
+                <h3 className="text-teal-600 font-semibold mb-2">Instant Booking</h3>
+                <p className="text-gray-500 text-sm">Book reliable movers & drivers in minutes</p>
+              </div>
+              
+              <div className="text-center p-4 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300">
+                <Shield className="w-8 h-8 text-teal-500 mx-auto mb-2" />
+                <h3 className="text-teal-600 font-semibold mb-2">Verified Drivers and reliable Movers</h3>
+                <p className="text-gray-500 text-sm">100% background checked</p>
+              </div>
+              
+              <div className="text-center p-4 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300">
+                <CreditCard className="w-8 h-8 text-teal-500 mx-auto mb-2" />
+                <h3 className="text-teal-600 font-semibold mb-2">Secure Payments</h3>
+                <p className="text-gray-500 text-sm">Pay safely through our secure payment</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative">
+            <img 
+              src={img}
+              alt="Moving truck with furniture"
+              className="w-full h-auto object-contain opacity-90"
+              style={{ mixBlendMode: 'multiply' }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
-};
-
-HeroSection.defaultProps = {
-  title: (
-    <>
-      Simplify Your Move with{' '}
-      <span className="text-teal-600 font-semibold">Truckit</span>
-    </>
-  ),
-  description:
-    'Connecting customers with reliable drivers and movers, the New Mover App simplifies the moving process with transparent pricing, real-time updates, and professional support for a seamless experience.',
-  buttons: [
-    {
-      to: '/register',
-      text: 'Register',
-      isPrimary: true,
-    },
-    {
-      to: '/learn-more',
-      text: 'Learn More',
-      isPrimary: false,
-    },
-  ],
-};
-
-HeroSection.propTypes = {
-  title: PropTypes.node,
-  description: PropTypes.node,
-  buttons: PropTypes.arrayOf(
-    PropTypes.shape({
-      to: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      isPrimary: PropTypes.bool.isRequired,
-      icon: PropTypes.node, // Optional icon for buttons
-    })
-  ).isRequired,
-};
-
-export default HeroSection;
+}

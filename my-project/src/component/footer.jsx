@@ -1,89 +1,168 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { TruckIcon, BellIcon, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { 
+  Facebook, 
+  Twitter, 
+  Instagram, 
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+  TruckIcon
+} from 'lucide-react';
+
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const companyLinks = [
+    { name: 'About Us', href: '/about' },
+    { name: 'Careers', href: '/careers' },
+    { name: 'Press', href: '/press' },
+    { name: 'Blog', href: '/blog' },
+  ];
+
+  const supportLinks = [
+    { name: 'Help Center', href: '/help' },
+    { name: 'Safety', href: '/safety' },
+    { name: 'Terms of Service', href: '/terms' },
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Cookie Policy', href: '/cookies' },
+  ];
+
+  const servicesLinks = [
+    { name: 'For Drivers', href: '/drivers' },
+    { name: 'For Movers', href: '/movers' },
+    { name: 'For Business', href: '/business' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Cities', href: '/cities' },
+  ];
+
+  const socialLinks = [
+    { name: 'Facebook', icon: Facebook, href: 'https://facebook.com' },
+    { name: 'Twitter', icon: Twitter, href: 'https://twitter.com' },
+    { name: 'Instagram', icon: Instagram, href: 'https://instagram.com' },
+    { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com' },
+  ];
 
   return (
-    <section className="bg-gradient-to-r from-orange-50 to-orange-100 w-full mt-4 p-6 border-t border-orange-200 shadow-sm">
-  <div className="container mx-auto flex flex-col lg:flex-row gap-8 p-4">
-    {/* Company Description */}
-    <div className="flex flex-col items-start space-y-6 lg:w-1/3">
-       <Link to="#" className="flex items-center gap-3 group">
-            <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transform transition-transform group-hover:rotate-12">
-              <TruckIcon className="h-6 w-6 text-white" />
+    <footer className="bg-white border-t">
+      <div className="container mx-auto px-4 py-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-8">
+          {/* Company Info */}
+          <div className="lg:col-span-4">
+            <Link to="/" className="flex items-center gap-3 group mb-4">
+              <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl">
+                <TruckIcon className="h-6 w-6 text-white" />
+              </div>
+              <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
+                Truckit
+              </span>
+            </Link>
+            <p className="text-gray-600 mb-6 text-sm">
+              Connecting customers with reliable drivers and movers. The smarter way to handle your moving needs.
+            </p>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 text-gray-600">
+                <Mail className="h-5 w-5 text-teal-600" />
+                <span className="text-sm">support@truckit.com</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-600">
+                <Phone className="h-5 w-5 text-teal-600" />
+                <span className="text-sm">1-800-TRUCKIT</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-600">
+                <MapPin className="h-5 w-5 text-teal-600" />
+                <span className="text-sm">Kloppenburg Link, Saskatoon, Canada</span>
+              </div>
             </div>
-            <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
-              Truckit
-            </span>
-          </Link>
-      <p className="text-base text-gray-700 font-normal font-['Open Sans'] text-justify leading-relaxed">
-        Connecting customers with reliable drivers and movers, the New Mover App simplifies the moving process with transparent pricing, real-time updates, and professional support for a seamless experience.
-      </p>
-    </div>
+          </div>
 
-    {/* Footer Sections */}
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:w-2/3">
-      {/* Quick Links */}
-      <div className="flex flex-col space-y-2">
-        <h3 className="text-teal-600 text-base font-bold font-['Open Sans']">Quick Links</h3>
-        <ul className="text-black text-base font-normal font-['Open Sans'] space-y-2">
-          <li><a href="#" className="hover:text-indigo-600 transition-colors duration-200 flex items-center gap-2"><i className="fas fa-home text-sm"></i> Home</a></li>
-          <li><a href="#" className="hover:text-indigo-600 transition-colors duration-200 flex items-center gap-2"><i className="fas fa-cogs text-sm"></i> How It Works</a></li>
-          <li><a href="#" className="hover:text-indigo-600 transition-colors duration-200 flex items-center gap-2"><i className="fas fa-comments text-sm"></i> Testimonials</a></li>
-          <li><a href="#" className="hover:text-indigo-600 transition-colors duration-200 flex items-center gap-2"><i className="fas fa-headset text-sm"></i> Chat us</a></li>
-        </ul>
-      </div>
+          {/* Links Sections */}
+          <div className="lg:col-span-2">
+            <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
+            <ul className="space-y-3">
+              {companyLinks.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.href} className="text-gray-600 hover:text-teal-600 text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      {/* Email Us */}
-      <div className="flex flex-col space-y-2">
-        <h3 className="text-teal-600 text-base font-semibold font-['Open Sans']">Email us</h3>
-        <p className="text-black text-base font-normal font-['Open Sans']">emailaddress@gmail.com</p>
-      </div>
+          <div className="lg:col-span-2">
+            <h3 className="font-semibold text-gray-900 mb-4">Support</h3>
+            <ul className="space-y-3">
+              {supportLinks.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.href} className="text-gray-600 hover:text-teal-600 text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      {/* Follow Us */}
-      <div className="flex flex-col space-y-2">
-        <h3 className="text-teal-600 text-base font-semibold font-['Open Sans']">Follow us</h3>
-        <div className="flex gap-4">
-          <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200 text-2xl">
-            <i className="fab fa-facebook"></i>
-          </a>
-          <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200 text-2xl">
-            <i className="fab fa-twitter"></i>
-          </a>
-          <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200 text-2xl">
-            <i className="fab fa-instagram"></i>
-          </a>
-          <a href="#" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200 text-2xl">
-            <i className="fab fa-linkedin"></i>
-          </a>
+          <div className="lg:col-span-2">
+            <h3 className="font-semibold text-gray-900 mb-4">Services</h3>
+            <ul className="space-y-3">
+              {servicesLinks.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.href} className="text-gray-600 hover:text-teal-600 text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Newsletter Section */}
+          <div className="lg:col-span-2">
+            <h3 className="font-semibold text-gray-900 mb-4">Stay Updated</h3>
+            <p className="text-sm text-gray-600 mb-4">Subscribe to our newsletter for updates and offers.</p>
+            <form className="space-y-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+              />
+              <button
+                type="submit"
+                className="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors text-sm font-semibold"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="border-t pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-sm text-gray-600">
+              © {new Date().getFullYear()} Truckit. All rights reserved.
+            </div>
+            
+            {/* Social Links */}
+            <div className="flex gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-teal-600 transition-colors"
+                  aria-label={social.name}
+                >
+                  <social.icon className="h-5 w-5" />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Get Started */}
-      <div className="flex flex-col space-y-2">
-        <h3 className="text-teal-600 text-base font-semibold font-['Open Sans']">Get Started</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded-md hover:teal-100 transition-colors duration-200">
-          Contact Us
-        </button>
-      </div>
-    </div>
-  </div>
-
-  {/* Footer Bottom */}
-  <div className="w-full text-center text-black font-normal text-sm mt-8">
-    <p>Copyright <span className="footer-year">{currentYear}</span> All rights reserved</p>
-    <a href="/" className="text-teal-600 hover:underline mt-2 inline-block">Back to Top</a>
-  </div>
-</section>
+    </footer>
   );
-};
-
-Footer.propTypes = {
-  logo: PropTypes.shape({
-    src: PropTypes.string
-  })
 };
 
 export default Footer;

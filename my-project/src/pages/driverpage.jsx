@@ -15,7 +15,7 @@ import img4 from "../assets/admin.png";
 import imgstep1 from "../assets/Wavy_Bus-09_Single-10 1.png";
 import imgstep2 from "../assets/man-moving-5-stars.png";
 import imgstep3 from "../assets/image 3.png";
-import Driveimg from "../assets/Untitled design.png"
+import Driveimg from "../assets/Hero.png"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
