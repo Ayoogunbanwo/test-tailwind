@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from '../UserContext';  // Going up one level to config folder
 
-const useUser = () => {
+const UseUser = () => {
   const context = useContext(UserContext);
 
   if (!context) {
@@ -11,4 +11,4 @@ const useUser = () => {
   return context;
 };
 
-export default useUser;
+export default UseUser;
