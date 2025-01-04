@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TruckIcon } from 'lucide-react';
 import googlelogo from '../assets/icons8-google-50.png';
 import useAuth from "../config/hooks/useAuth";
-import useUser from '../hooks/useUser';
+import useUser from "../config/hooks/useUser";
 import { auth } from '../config/firebase';
 import { setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 
