@@ -1,6 +1,6 @@
 import React from 'react';
 import { LogOut, Settings, User } from 'lucide-react';
-import { useUser  } from '@/config/hooks/useUser';
+import { useUser  } from '../config/useUser';
 import useAuth from "../config/hooks/useAuth";
 
 const UserMenu = () => {
