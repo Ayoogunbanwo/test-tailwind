@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser  } from '@/config/hooks/useUser';
+import { useUser  } from '../config/useUser';
 import useAuth from '../config/hooks/useAuth';
 import Footer from '../component/footer';
 import TopNavBar from '../component/TopNavBar';
