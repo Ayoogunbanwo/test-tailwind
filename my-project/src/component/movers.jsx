@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const MoverSection = ({
   title = 'BECOME A MOVER AND EARN EXTRA INCOME!',
-  description = 'Join our network of movers and start earning today. With flexible hours and competitive pay, you can turn your free time into a steady income stream. Sign up now and get started!',
+  description = '',
   imageSrc = '/template/images/Moversng.jpg',
   buttons = [],
 }) => {
