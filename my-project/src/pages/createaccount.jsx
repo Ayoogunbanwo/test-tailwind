@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddressInput from "../component/address";
 import { TruckIcon } from "lucide-react"; // Import TruckIcon
-import useUser from '../hooks/useUser';
+import useUser from '../config/hooks/useUser';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase"; // Import your Firestore configuration
 import PhoneInput from "react-phone-number-input"; // Import PhoneInput
