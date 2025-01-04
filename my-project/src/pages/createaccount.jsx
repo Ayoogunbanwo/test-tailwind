@@ -91,7 +91,7 @@ const CreateAccount = () => {
       setCookie("registeredThroughLanding", "true", 1);
 
       // Redirect to homepage
-      navigate("/homepage");
+      navigate("/signin");
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Error while updating profile.");
