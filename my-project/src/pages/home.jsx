@@ -12,7 +12,7 @@ import imgstep3 from "../assets/image 3.png";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import ServicesSection from "../component/Services";
 import ProductCarousel from "../component/Carousel";
-
+import ProcessFlow from "../component/howitworksmovers";
 
 
 const images = {
@@ -37,35 +37,24 @@ const navigate = useNavigate();
 
 
   return (
-    <div className="h-screen">
+    <div className="h-screen p-8">
       <header>
       <NavBar isLoggedIn={false} onLogout={handleLogout} />
-      
       <HeroSection buttons={Herobuttons} />
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-       <ServicesSection></ServicesSection>
-        <div className="mt-12 flex flex-col">
-          <div>
-            <p className="text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center">How It Works</p>
-            <Howitworks images={images} />
-          </div>
-        </div>
-        <div>
+      <main className="mx-auto px-4 sm:px-6 lg:px-8">  
+        <ServicesSection></ServicesSection>
+        <ProcessFlow></ProcessFlow> 
         <ProductCarousel />
-
-        
-        </div>
         <Testimonials />
         <Appsoon mainText="Get Moving Today" descriptionText="Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move or a big relocation, we've got you covered. Download the app now to get started or reach out to our support team for any questions." />
       </main>
-
-       <footer>
-        <Footer />
-       </footer>
-      </div>
+      
+      <footer>
+      <Footer />
+      </footer>
+    </div>
   );
 };
 

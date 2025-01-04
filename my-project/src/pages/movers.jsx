@@ -14,6 +14,7 @@ import moverimg from "../assets/mvimg.jpg"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useUser } from '../config/useUser';
 import WhyChooseUsmovers from "../component/whychooseusmovers";
+import ProcessFlow from "../component/howitworksmovers";
 
 
 const images = {
@@ -40,29 +41,24 @@ const handleLogout = () => {
 
 
   return (
-<div className="h-screen overflow-auto">
-  <header>
-    <NavBar isLoggedIn={false} onLogout={handleLogout} />
-  </header>
+    <div className="h-screen">
+      <header>
+            <NavBar isLoggedIn={false} onLogout={handleLogout} />
+            <Movers imageSrc={moverimg} buttons={Moverbuttons}></Movers>
+      </header>
 
-  <main>
-        <Movers imageSrc={moverimg} buttons={Moverbuttons}></Movers>
-        <WhyChooseUsmovers></WhyChooseUsmovers>
-        <div className="mt-12 flex flex-col">
-          <div>
-            <p className="text-black text-3xl sm:text-xl md:text-3xl lg:text-5xl font-bold font-['open-sans'] text-center pt-12">How It Works</p> 
-            <Howitworks images={images} />
-            </div>
-        </div>
-        <Testimonials className = "mx-auto"></Testimonials> 
-        <Appsoon mainText="Get Moving Today"
-          descriptionText="Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move or a big relocation, we've got you covered. Download the app now to get started or reach out to our support team for any questions."></Appsoon>
-  </main>
+      <main className="mx-auto px-4 sm:px-6 lg:px-8"> 
+            <WhyChooseUsmovers></WhyChooseUsmovers>
+            <ProcessFlow></ProcessFlow> 
+            <Testimonials className = "mx-auto"></Testimonials> 
+            <Appsoon mainText="Get Moving Today"
+              descriptionText="Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move or a big relocation, we've got you covered. Download the app now to get started or reach out to our support team for any questions."></Appsoon>
+      </main>
 
-  <footer>
-    <Footer />
-  </footer>
-</div>
+      <footer>
+      <Footer />
+      </footer>
+    </div>
   );
 };
 

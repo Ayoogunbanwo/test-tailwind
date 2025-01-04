@@ -4,7 +4,7 @@ import { CheckCircle, Award, Zap, Users, Clock, Shield } from 'lucide-react';
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
     <div className="flex items-center mb-6">
-      <Icon className="w-10 h-10 text-teal-600 mr-4" /> {/* Updated icon color to teal */}
+      <Icon className="w-10 h-10 text-teal-600 mr-4" />
       <h3 className="text-2xl font-semibold text-gray-900">{title}</h3>
     </div>
     <p className="text-gray-600 leading-relaxed">{description}</p>
