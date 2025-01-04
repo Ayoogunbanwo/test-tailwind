@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../config/firebase';
-import {useUser} from "../config/hooks/useUser";
+import { useUser  } from '@/config/hooks/useUser';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const MoveDetailsPage = () => {

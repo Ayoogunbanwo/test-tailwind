@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { TruckIcon } from 'lucide-react';
 import googlelogo from "../assets/icons8-google-50.png";
 import useAuth from "../config/hooks/useAuth";
+import { useUser  } from '@/config/hooks/useUser';
 
 // Validation functions
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
