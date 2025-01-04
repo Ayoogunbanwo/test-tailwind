@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import imgvan from "../assets/Dashboard.jpg";
 
+
 const HeroSectiondashboard = ({ isLoggedIn, firstname, onLogout }) => {
   // Dynamically render the title and description based on `isLoggedIn`
   const dynamicTitle = isLoggedIn ? (
@@ -54,12 +55,12 @@ const HeroSectiondashboard = ({ isLoggedIn, firstname, onLogout }) => {
           {isLoggedIn ? (
             renderButtons()
           ) : (
-            <button
-              onClick={onLogout}
+            <Link
+              to="/Moverequestform"
               className="py-2 px-6 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
             >
               Plan a Move
-            </button>
+            </Link>
           )}
         </div>
       </div>

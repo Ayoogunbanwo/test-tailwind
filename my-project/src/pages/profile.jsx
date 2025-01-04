@@ -8,7 +8,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const ProfileForm = () => {
   const { signout, updateUserInFirestore } = useAuth(); // Sign-out and update functions
-  const { formData, loading } = useUser(); // Access user data from UserContext
+  const { profile, loading } = useUser(); // Access user data from UserContext
   const [avatar, setAvatar] = useState('https://avatar.iran.liara.run/public/boy'); // Default avatar
   const [avatarFile, setAvatarFile] = useState(null); // Store the selected avatar file
   const [formValues, setFormValues] = useState({
@@ -25,27 +25,29 @@ const ProfileForm = () => {
   });
   const [isEditing, setIsEditing] = useState(false); // Track edit mode
 
+
+
   const navigate = useNavigate();
   const storage = getStorage(); // Initialize Firebase Storage
 
   // Update formValues when formData is available
   useEffect(() => {
-    if (formData) {
+    if (profile) {
       setFormValues({
-        firstName: formData.firstName || '',
-        lastName: formData.lastName || '',
-        email: formData.email || '',
-        phone: formData.phone || '',
+        firstName: profile.firstName || '',
+        lastName: profile.lastName || '',
+        email: profile.email || '',
+        phone: profile.phone || '',
         address: {
-          apartment: formData.address?.apartment || '',
-          street: formData.address?.street || '',
-          province: formData.address?.province || '',
-          country: formData.address?.country || '',
+          apartment: profile.address?.apartment || '',
+          street: profile.address?.street || '',
+          province: profile.address?.province || '',
+          country: profile.address?.country || '',
         },
       });
-      setAvatar(formData.avatar || 'https://avatar.iran.liara.run/public/boy');
+      setAvatar(profile.avatar || 'https://avatar.iran.liara.run/public/boy');
     }
-  }, [formData]);
+  }, [profile]);
 
   // Handle avatar image change
   const handleAvatarChange = (event) => {

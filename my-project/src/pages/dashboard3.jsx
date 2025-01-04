@@ -5,21 +5,21 @@ import RecentActivity from '../component/RecentActivity';
 import Footer from '../component/footer';
 import HeroSectiondashboard from '../component/Dash3hero';
 import { useNavigate } from 'react-router-dom';
-import { useUser  } from '../config/useUser';
+import {useUser} from "../config/hooks/useUser";
 import useAuth from "../config/hooks/useAuth";
 import { Link } from 'react-router-dom';
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
-  const { formData } = useUser();
+  const { profile, loading, formData } = useUser();
   const { signout } = useAuth();
 
-  const isLoggedIn = !!formData;
-  const firstname = formData?.firstName || "Guest";
+  const isLoggedIn = !!profile;
 
 
 
-console.log(formData);
+
+console.log('Profile data:', profile);
 
   const handleLogout = () => {
     signout();
@@ -36,7 +36,7 @@ console.log(formData);
         <main className="Min-h-screen mx-auto p-8">  
         <HeroSectiondashboard className=" "
           isLoggedIn={isLoggedIn}
-          firstname={firstname}
+          firstname={profile?.firstName || "Guest"}
           onLogout={handleLogout}
             />
             <hr className="border-t-2 border-gray-300" />

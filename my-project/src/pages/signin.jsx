@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { TruckIcon } from 'lucide-react';
 import googlelogo from '../assets/icons8-google-50.png';
 import useAuth from "../config/hooks/useAuth";
-import { useUser  } from '../config/useUser';
+import { useUser } from '../config/useUser'; // Ensure this hook is correctly implemented
 import { auth } from '../config/firebase';
 import { setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 
@@ -14,7 +14,7 @@ const validatePassword = (password) =>
 
 const SignIn = () => {
   const { signinWithEmail, handleGoogleSignin } = useAuth();
-  const { setUser } = useUser();
+  const { profile, setUser } = useUser(); // Access profile and setUser from UserContext
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +24,16 @@ const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate("/CustomerDashboard");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -46,22 +56,18 @@ const SignIn = () => {
     setLoading(true);
 
     try {
-      // Set persistence before signing in
       const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
       await setPersistence(auth, persistence);
 
-      // Sign in user
       const currentUser = await signinWithEmail(email, password);
       console.log("User signed in", currentUser);
-      
-      // Update user context if needed
-      setUser(currentUser);
 
-      // Clear form
+      if (setUser) {
+        setUser(currentUser); // Update the user context
+      }
+
       setEmail("");
       setPassword("");
-      
-      // Navigate to dashboard
       navigate("/CustomerDashboard");
     } catch (error) {
       console.error("Signin failed:", error);
@@ -75,7 +81,7 @@ const SignIn = () => {
     try {
       setLoading(true);
       const result = await handleGoogleSignin();
-      
+
       if (result.error) {
         setError(result.error);
         return;
@@ -83,7 +89,9 @@ const SignIn = () => {
 
       if (result.user) {
         console.log("Google login successful:", result.user);
-        setUser(result.user);
+        if (setUser) {
+          setUser(result.user); // Update the user context
+        }
         navigate("/CustomerDashboard");
       }
     } catch (error) {
@@ -97,16 +105,16 @@ const SignIn = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-teal-50 to-blue-50 p-8">
       <div className="w-full max-w-md px-6 py-8 bg-white rounded-xl shadow-lg">
-        {/* Updated Logo Section */}
+        {/* Logo Section */}
         <div className="flex justify-center mb-6">
           <Link to="#" className="flex items-center gap-3 group">
-              <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transform transition-transform group-hover:rotate-12">
-                <TruckIcon className="h-6 w-6 text-white" />
-              </div>
-              <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
-                Truckit
-              </span>
-              </Link>
+            <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transform transition-transform group-hover:rotate-12">
+              <TruckIcon className="h-6 w-6 text-white" />
+            </div>
+            <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
+              Truckit
+            </span>
+          </Link>
         </div>
 
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Sign In</h1>
@@ -114,6 +122,7 @@ const SignIn = () => {
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
         <form onSubmit={handleSignin} className="space-y-6">
+          {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-base font-medium text-gray-700">
               Email address
@@ -124,13 +133,17 @@ const SignIn = () => {
               placeholder="Email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError("");
+              }}
               className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 ${
                 email && !validateEmail(email) ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-teal-500"
               }`}
             />
           </div>
 
+          {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-base font-medium text-gray-700">
               Password
@@ -141,7 +154,10 @@ const SignIn = () => {
                 type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setError("");
+                }}
                 required
                 className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 ${
                   password && !validatePassword(password) ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-teal-500"
@@ -156,8 +172,14 @@ const SignIn = () => {
                 {isPasswordVisible ? 'Hide' : 'Show'}
               </button>
             </div>
+            {password && !validatePassword(password) && (
+              <p className="text-red-500 text-sm mt-1">
+                Password must be at least 8 characters long and contain at least one number and one special character.
+              </p>
+            )}
           </div>
 
+          {/* Remember Me and Forgot Password */}
           <div className="flex justify-between items-center">
             <label className="flex items-center space-x-2">
               <input
@@ -173,9 +195,11 @@ const SignIn = () => {
             </Link>
           </div>
 
+          {/* Sign In Button */}
           <button
             type="submit"
             disabled={loading}
+            aria-label={loading ? "Signing in..." : "Sign in"}
             className={`${
               loading ? "bg-teal-300 cursor-not-allowed" : "bg-teal-600 hover:bg-teal-700"
             } text-white font-bold py-3 rounded-lg w-full transition duration-300`}
@@ -183,12 +207,14 @@ const SignIn = () => {
             {loading ? "Signing in..." : "Sign in"}
           </button>
 
+          {/* Divider */}
           <div className="flex items-center justify-center my-6">
             <div className="border-t border-gray-300 flex-grow"></div>
             <span className="mx-4 text-gray-500 text-sm">or</span>
             <div className="border-t border-gray-300 flex-grow"></div>
           </div>
 
+          {/* Google Sign-In Button */}
           <button
             type="button"
             disabled={loading}
@@ -198,9 +224,10 @@ const SignIn = () => {
             } flex items-center justify-center text-gray-700 font-medium py-3 rounded-lg text-base border border-gray-300 shadow-sm gap-2 w-full transition duration-300`}
           >
             <img src={googlelogo} alt="Google Logo" className="w-6 h-6" />
-            <span>Sign in with Google</span>
+            <span>{loading ? "Signing in..." : "Sign in with Google"}</span>
           </button>
 
+          {/* Sign Up Link */}
           <p className="text-center text-gray-600 mt-6 text-sm">
             Don't have an account?{' '}
             <Link to="/signup" className="text-teal-600 font-medium hover:text-teal-700">
