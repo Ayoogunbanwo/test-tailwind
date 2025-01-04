@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../config/useUser';
 import useAuth from "../config/hooks/useAuth";
 import { Link } from 'react-router-dom';
+import { TruckIcon } from 'lucide-react';
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
