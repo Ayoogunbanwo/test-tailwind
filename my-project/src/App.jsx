@@ -14,7 +14,6 @@ import ForgotPassword from './pages/forgotpassword';
 import ForgotPasswordphone from './pages/forgotpasswordphone';
 import OtpReceived from './pages/recieveOTP';
 import Congratulations from './pages/congratulations';
-import Customerhomepage from './pages/customerhomepage';
 import Userdetails from './pages/emailverification';
 import { UserProvider } from "./config/UserContext";
 import { AuthProvider } from './config/AuthContext';
@@ -51,7 +50,6 @@ function App() {
                 <Route path="/forgotpasswordphone" element={<ForgotPasswordphone />} /> 
                 <Route path="/recieveOTP" element={<OtpReceived />} />
                 <Route path="/congratulations" element={<Congratulations />} />
-                <Route path="/dashboard" element={<Customerhomepage />} />
               <Route path="/emailverification" element={<Userdetails />} />
               <Route path="/profile" element={<ProfileForm />} />
               <Route path="/CustomerDashboard" element={<CustomerDashboard />} />
