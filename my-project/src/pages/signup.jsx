@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { TruckIcon, BellIcon, ChevronDown } from 'lucide-react';
+import { TruckIcon } from 'lucide-react';
 import googlelogo from "../assets/icons8-google-50.png";
 import useAuth from "../config/hooks/useAuth";
-import useUser from "../config/hooks/useUser";
 
 // Validation functions
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -14,8 +13,7 @@ const validatePassword = (password) =>
 
 
 const SignUp = () => {
-  const { user, verifyEmail, signupWithEmail, handleGoogleSignin} = useAuth();
-  const { setUser } = useUser();
+  const { verifyEmail, signupWithEmail, handleGoogleSignin} = useAuth();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
