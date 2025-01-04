@@ -6,21 +6,20 @@ import Footer from '../component/footer';
 import HeroSectiondashboard from '../component/Dash3hero';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../config/useUser';
-import useAuth from "../config/hooks/useAuth";
 import { Link } from 'react-router-dom';
-import { TruckIcon } from 'lucide-react';
+
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
-  const { profile } = useUser();
-  const { signout } = useAuth();
+  const { profile,logout } = useUser();
+
 
   const isLoggedIn = !!profile;
 
   const handleLogout = () => {
-    signout();
+    logout();
     localStorage.removeItem("authToken"); 
-    navigate("/signin");
+    navigate("/customer");
   };
 
   return (

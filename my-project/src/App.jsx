@@ -28,6 +28,7 @@ import HowItWorks from './component/Workings';
 import FAQ from './pages/FAQ';
 import MoveDetailsPage from './pages/MoveHistory';
 import ProductCarousel from './component/Carousel';
+import WhyChooseUsmovers from './component/whychooseusmovers';  
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
               <Route path="/FAQ" element={<FAQ />} />
               <Route path="/MoveHistory" element={<MoveDetailsPage />} />
               <Route path="/ProductCarousel" element={<ProductCarousel />} />
+              <Route path="/WhyChooseUsmovers" element={<WhyChooseUsmovers />} />
 
             </Routes>
             </AuthProvider>

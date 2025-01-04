@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../component/navbar";
 import Footer from "../component/footer";
@@ -17,15 +17,54 @@ import Testimonials from "../component/Testimonialcontainer";
 import Appsoon from "../component/Mobileapp";
 import Howitworks from "../component/howitworks";
 
-
 const images = {
   step1: imgstep1,
   step2: imgstep2,
   step3: imgstep3,
 };
-const Customerpage = () => {
- const navigate = useNavigate();
 
+const Customerpage = () => {
+  const navigate = useNavigate();
+
+  // Function to set a cookie with expiry
+  const setCookie = (name, value, days) => {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
+  };
+
+  // Function to get a cookie by name
+  const getCookie = (name) => {
+    const cookieName = name + "=";
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.startsWith(cookieName)) {
+        return cookie.substring(cookieName.length, cookie.length);
+      }
+    }
+    return "";
+  };
+
+  // Function to delete a cookie by name
+  const deleteCookie = (name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  };
+
+  useEffect(() => {
+    // Check if the user registered through the landing page
+    const registeredThroughLanding = getCookie("registeredThroughLanding");
+
+    if (registeredThroughLanding === "true") {
+      // Clear the cookie
+      deleteCookie("registeredThroughLanding");
+
+      // Redirect to login or show a login prompt
+      alert("Please log in to continue.");
+      navigate("/login"); // Redirect to your login page
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
     console.log("Logout clicked");
@@ -36,7 +75,6 @@ const Customerpage = () => {
   const Herobuttons = [
     { to: "/signup", text: "Schedule a Move", isPrimary: false },
   ];
-
 
   return (
     <div className="h-screen overflow-auto">

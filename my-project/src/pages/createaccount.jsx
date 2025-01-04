@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddressInput from "../component/address";
-import { TruckIcon } from "lucide-react"; // Import TruckIcon
-import { useUser  } from '../config/useUser';
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../config/firebase"; // Import your Firestore configuration
-import PhoneInput from "react-phone-number-input"; // Import PhoneInput
-import "react-phone-number-input/style.css"; // Import styles for the phone input
+import { Truck } from "lucide-react";
+import { useUser } from "../config/useUser";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { Link } from "react-router-dom";
 
 const CreateAccount = () => {
-  const { user } = useUser();
+  const { updateProfile } = useUser(); // Import updateProfile
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState(""); // State for phone number
+  const [phone, setPhone] = useState("");
   const [address, setAddress] = useState({
     street: "",
     apartment: "",
@@ -20,43 +19,46 @@ const CreateAccount = () => {
     country: "",
   });
   const [role, setRole] = useState("");
-  const [profileImage, setProfileImage] = useState(null); // State to store the uploaded image
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [profileImage, setProfileImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
+  // Function to set a cookie with expiry
+  const setCookie = (name, value, days) => {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
   };
 
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
+  // Function to get a cookie by name
+  const getCookie = (name) => {
+    const cookieName = name + "=";
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.startsWith(cookieName)) {
+        return cookie.substring(cookieName.length, cookie.length);
+      }
+    }
+    return "";
   };
 
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
+  // Function to delete a cookie by name
+  const deleteCookie = (name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   };
 
-  // Function to handle profile image upload
+  const handleFirstNameChange = (e) => setFirstName(e.target.value);
+  const handleLastNameChange = (e) => setLastName(e.target.value);
+  const handleRoleChange = (e) => setRole(e.target.value);
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result); // Set the uploaded image as a base64 string
-      };
+      reader.onloadend = () => setProfileImage(reader.result);
       reader.readAsDataURL(file);
-    }
-  };
-
-  const updateUserInFirestore = async (user, formData) => {
-    const userRef = doc(db, "users", user.uid); // Reference to the user's document
-
-    try {
-      await updateDoc(userRef, formData); // Update the user's data with the new fields
-      console.log("User data updated successfully:", formData);
-    } catch (error) {
-      console.error("Error updating user data in Firestore:", error);
-      throw new Error("Failed to update user data in Firestore");
     }
   };
 
@@ -71,28 +73,28 @@ const CreateAccount = () => {
       return;
     }
 
-    // Prepare form data
-    const formData = {
+    // Prepare profile data
+    const profileData = {
       firstName,
       lastName,
-      phone, // Use the formatted phone number
+      phone,
       address,
       role,
-      profileimage: profileImage || "https://avatar.iran.liara.run/public/boy", // Use uploaded image or default
+      profileImage: profileImage || "https://avatar.iran.liara.run/public/boy",
     };
 
-    console.log("Submitted Data:", formData);
-    console.log(user); // Log user info from the `useUser` hook
-
     try {
-      // Update user data in Firestore
-      await updateUserInFirestore(user, formData);
+      // Update user profile
+      await updateProfile(profileData);
 
-      // Navigate after form submission (optional)
-      navigate("/congratulations");
+      // Set a cookie with 1-day expiry
+      setCookie("registeredThroughLanding", "true", 1);
+
+      // Redirect to homepage
+      navigate("/homepage");
     } catch (error) {
-      console.error("Error while updating user data:", error);
-      alert("Error while updating user data.");
+      console.error("Error updating profile:", error);
+      alert("Error while updating profile.");
     } finally {
       setIsLoading(false);
     }
@@ -101,103 +103,89 @@ const CreateAccount = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-teal-50 to-blue-50">
       <div className="w-full max-w-lg px-6 py-8 bg-white rounded-xl shadow-lg">
-        {/* Updated Logo Section */}
-        <div className="flex justify-center mb-6">
-          <div className="flex items-center gap-2">
-            <TruckIcon className="h-8 w-8 text-teal-600" />
-            <span className="font-bold text-teal-600 text-2xl">Truckit</span>
-          </div>
+        <div className="flex items-center justify-center mb-6">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl">
+              <Truck className="h-6 w-6 text-white" />
+            </div>
+            <span className="font-bold text-xl bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
+              Truckit
+            </span>
+          </Link>
         </div>
 
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Create Your Account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <input
-              type="text"
-              name="firstName"
-              value={firstName}
-              required
-              onChange={handleFirstNameChange}
-              placeholder="First Name"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-            />
-            <input
-              type="text"
-              name="lastName"
-              value={lastName}
-              required
-              onChange={handleLastNameChange}
-              placeholder="Last Name"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-            />
-          </div>
-
+          <input
+            type="text"
+            value={firstName}
+            required
+            onChange={handleFirstNameChange}
+            placeholder="First Name"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <input
+            type="text"
+            value={lastName}
+            required
+            onChange={handleLastNameChange}
+            placeholder="Last Name"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
           <AddressInput setAddress={setAddress} />
-
-          <div className="w-full">
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number
-            </label>
-            <PhoneInput
-              international
-              defaultCountry="CA" // Set default country
-              value={phone}
-              onChange={setPhone} // Update phone state
-              placeholder="Enter phone number"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-            />
-          </div>
-
-          <div className="w-full">
-            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
-              Role
-            </label>
-            <select
-              id="role"
-              name="role"
-              value={role}
-              required
-              onChange={handleRoleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-            >
-              <option value="" disabled>Select Role</option>
-              <option value="Customer">Customer</option>
-              <option value="Driver">Driver</option>
-              <option value="Mover">Mover</option>
-            </select>
-          </div>
-
+          <PhoneInput
+            international
+            defaultCountry="CA"
+            value={phone}
+            onChange={setPhone}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <select
+            value={role}
+            required
+            onChange={handleRoleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option value="" disabled>Select Role</option>
+            <option value="Customer">Customer</option>
+            <option value="Driver">Driver</option>
+            <option value="Mover">Mover</option>
+          </select>
           <div className="w-full">
             <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700 mb-1">
-              Profile Image
+              Profile Image (Optional)
             </label>
-            <input
-              type="file"
-              id="profileImage"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-            />
-            {profileImage ? (
+            <div className="flex items-center gap-4">
+              <input
+                type="file"
+                id="profileImage"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              <label
+                htmlFor="profileImage"
+                className="cursor-pointer bg-gray-100 p-2 border border-gray-300 rounded-lg hover:bg-gray-200 transition"
+              >
+                Choose File
+              </label>
+              <span className="text-sm text-gray-500">
+                {profileImage ? "Image Selected" : "No image chosen"}
+              </span>
+            </div>
+            {profileImage && (
               <img
                 src={profileImage}
                 alt="Profile Preview"
-                className="w-24 h-24 mt-2 rounded-full object-cover border-2 border-teal-500"
+                className="w-24 h-24 mt-4 rounded-full object-cover border-2 border-teal-500"
               />
-            ) : (
-              <div
-                className="w-24 h-24 mt-2 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 border-2 border-dashed border-gray-400"
-              >
-                No Image
-              </div>
             )}
           </div>
-
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 mt-6 bg-gradient-to-r from-teal-500 to-blue-500 text-white rounded-lg hover:from-teal-600 hover:to-blue-600 disabled:opacity-50 transition-all"
+            className="w-full py-3 mt-6 bg-gradient-to-r from-teal-500 to-blue-500 text-white rounded-lg hover:from-teal-600 hover:to-blue-600 disabled:opacity-50"
           >
             {isLoading ? "Submitting..." : "Create Account"}
           </button>

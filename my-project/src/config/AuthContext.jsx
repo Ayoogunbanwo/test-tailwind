@@ -271,7 +271,7 @@ const updateUserInFirestore = async (user, formData) => {
     const resetPassword = (email) => sendPasswordResetEmail(auth, email);
     const updateUserPassword = (newPassword) => updatePassword(auth.currentUser, newPassword);
     
-      const signout = async () => {
+    const signout = async () => {
         try {
           localStorage.removeItem('authToken');
           await signOut(auth);

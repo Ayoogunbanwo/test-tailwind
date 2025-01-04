@@ -14,8 +14,10 @@ import {
   doc, 
   getDoc, 
   setDoc, 
-  deleteDoc 
+  deleteDoc, 
+  updateDoc
 } from 'firebase/firestore';
+import { serverTimestamp } from 'firebase/firestore';
 
 import { db } from "../config/firebase"; 
 
@@ -84,32 +86,31 @@ export const UserProvider = ({ children }) => {
 
   // Update User Profile
   const updateProfile = useCallback(async (updatedData) => {
-    if (!currentUser.uid) {
-      throw new Error('No authenticated user');
-    }
+  if (!currentUser?.uid) {
+    throw new Error('No authenticated user');
+  }
 
-    try {
-      const userDocRef = doc(db, 'users', currentUser.uid);
-      await setDoc(userDocRef, 
-        { 
-          ...profile, 
-          ...updatedData,
-          updatedAt: new Date() 
-        }, 
-        { merge: true }
-      );
+  try {
+    // Update Firestore
+    const userRef = doc(db, 'users', currentUser.uid);
+    await updateDoc(userRef, {
+      ...updatedData,
+      updatedAt: serverTimestamp()
+    });
 
-      setProfile(prev => ({
-        ...prev,
-        ...updatedData
-      }));
+    // Update local state
+    setProfile(prev => ({
+      ...prev,
+      ...updatedData,
+      updatedAt: new Date()
+    }));
 
-      return true;
-    } catch (error) {
-      console.error('Profile update failed:', error);
-      return false;
-    }
-  }, [currentUser, profile]);
+    return true;
+  } catch (error) {
+    console.error('Profile update failed:', error);
+    throw error;
+  }
+}, [currentUser]);
 
   // Logout Method
   const logout = useCallback(async () => {

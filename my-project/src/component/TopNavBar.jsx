@@ -3,14 +3,16 @@ import { Bell, ChevronDown, Truck, LogOut, User } from 'lucide-react';
 import { useUser } from '../config/useUser';
 import { Link } from 'react-router-dom';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
-import { auth, db } from '../config/firebase';
+import {  db } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
 
 const TopNavBar = () => {
   const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [notifications, setNotifications] = useState([]);
-  const { uid, profile } = useUser();
+  const { uid, profile, logout } = useUser();
+  const navigate = useNavigate();
+  
 
   const userDetails = useMemo(() => ({
     firstName: profile?.firstName || 'Guest',
@@ -45,13 +47,10 @@ const TopNavBar = () => {
     notifications.filter((notification) => !notification.isRead).length,
   [notifications]);
 
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      setShowUserMenu(false);
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
+   const handleLogout = () => {
+    logout();
+    localStorage.removeItem("authToken"); 
+    navigate("/customer");
   };
 
   // Close menus when clicking outside
@@ -155,7 +154,7 @@ const TopNavBar = () => {
                   </Link>
                   
                   <button
-                    onClick={handleSignOut}
+                    onClick={handleLogout}
                     className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md"
                   >
                     <LogOut className="h-4 w-4" />
