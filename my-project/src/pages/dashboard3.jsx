@@ -2,7 +2,7 @@ import React from 'react';
 import TopNavBar from '../component/TopNavBar';
 import QuickActions from '../component/QuickAction';
 import RecentActivity from '../component/RecentActivity';
-import Footer from '../component/Footer';
+import Footer from '../component/footer';
 import HeroSectiondashboard from '../component/Dash3hero';
 import { useNavigate } from 'react-router-dom';
 import {useUser} from "../config/hooks/useUser";
