@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import useUser from '../config/hooks/useUser';
+import {useUser} from "../config/hooks/useUser";
 import useAuth from '../config/hooks/useAuth';
-import NavBar from '../component/navbar';
 import Footer from '../component/footer';
-import imageprofile from '../assets/Truckitprofile.png';
 import TopNavBar from '../component/TopNavBar';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase Storage
 

@@ -1,192 +1,191 @@
-import React, { createContext, useState, useEffect, useMemo, useCallback } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, collection, setDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../config/firebase"; // Adjust this import to match your Firebase setup
+// src/contexts/UserContext.js
+import React, { 
+  createContext, 
+  useState, 
+  useEffect, 
+  useCallback, 
+  useMemo 
+} from 'react';
+import { 
+  getAuth, 
+  onAuthStateChanged 
+} from 'firebase/auth';
+import { 
+  doc, 
+  getDoc, 
+  setDoc, 
+  deleteDoc 
+} from 'firebase/firestore';
 
-// Create a context for user-related data
-export const UserContext = createContext();
+import { db } from "../config/firebase"; 
 
-// Initialize Firebase auth
-const auth = getAuth();
+// Initial User State Structure
+const INITIAL_USER_STATE = {
+  uid: null,
+  email: null,
+  displayName: null,
+  photoURL: null
+};
 
-// Default form data structure
-const defaultFormData = {
-  firstName: "",
-  lastName: "",
-  email: "",
+const INITIAL_PROFILE_DATA = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
   address: {
     apartment: "",
     country: "",
     province: "",
     street: "",
   },
-  phone: "",
-  role: "",
-  createdAt: "",
-  uid: "",
+  role: 'Customer',
+  createdAt: null,
+  uid: '',
 };
 
-// UserProvider component to manage user state and data
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Initialize user state/ Firebase user object
-  const [accessToken, setAccessToken] = useState(null); // Firebase access token
-  const [formData, setFormData] = useState(defaultFormData); // User profile data
-  const [loading, setLoading] = useState(true); // Loading state
+// Create Context
+export const UserContext = createContext({
+  currentUser: INITIAL_USER_STATE,
+  profile: INITIAL_PROFILE_DATA,
+  isAuthenticated: false,
+  isLoading: true,
+  login: () => {},
+  logout: () => {},
+  updateProfile: () => {},
+});
 
-  // Fetch user data from Firestore
-  const fetchUserData = useCallback(async (uid) => {
+// User Provider Component
+export const UserProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(INITIAL_USER_STATE);
+  const [profile, setProfile] = useState(INITIAL_PROFILE_DATA);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const auth = getAuth();
+
+  // Fetch User Profile
+  const fetchUserProfile = useCallback(async (uid) => {
     try {
-      const userDoc = doc(db, "users", uid);
-      const userSnapshot = await getDoc(userDoc);
-      if (userSnapshot.exists()) {
-        const userData = userSnapshot.data();
-        setFormData({
-          firstName: userData.firstName || "",
-          lastName: userData.lastName || "",
-          email: userData.email || "",
-          address: {
-            apartment: userData.address?.apartment || "",
-            country: userData.address?.country || "",
-            province: userData.address?.province || "",
-            street: userData.address?.street || "",
-          },
-          phone: userData.phone || "",
-          role: userData.role || "",
-          createdAt: userData.createdAt || "",
-          uid: userData.uid || "",
+      const userDocRef = doc(db, 'users', uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        setProfile({
+          ...INITIAL_PROFILE_DATA,
+          ...userData,
+          createdAt: userData.createdAt || new Date()
         });
-      } else {
-        console.log("User document not found");
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error('Error fetching user profile:', error);
     }
   }, []);
 
-  // Update formData with new data
-  const updateFormData = useCallback((newData) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      ...newData,
-    }));
-  }, []);
-
-  // Save move data to Firestore
-  const saveMoveDataToFirestore = useCallback(async (moveData, user, moveId = null) => {
-    if (!user || !user.uid) throw new Error("Invalid user data");
-    if (!moveData || typeof moveData !== "object") throw new Error("Invalid move data");
-
-    const moveRef = moveId ? doc(db, "Movedata", moveId) : doc(collection(db, "Movedata"));
-    const newMoveId = moveRef.id;
-
-    const moveDataToSave = {
-      moveId: newMoveId,
-      userId: user.uid,
-      fromLocation: moveData.from,
-      toLocation: moveData.to,
-      moveDate: moveData.date,
-      moveTime: moveData.time,
-      typeOfMove: moveData.movetype,
-      vehicleRequired: moveData.vehiclereq,
-      hoursOfService: moveData.reqhours,
-      moverRequired: moveData.moverreq,
-      moverHours: moveData.moverreqhours,
-      additionalServices: moveData.addservicereq,
-      specialInstructions: moveData.specialinst,
-      inventoryList: moveData.inventorylist,
-      insuranceRequired: moveData.insurancereq,
-      timingPreferences: moveData.timingpref,
-      accessDetails: moveData.accessdetails,
-      packingSupplies: moveData.packingsupplies,
-      petOrPlantDetails: moveData.petplantdetails,
-      budgetRange: moveData.budgetrange,
-      contactName: moveData.contactname,
-      contactPhone: moveData.contactphone,
-      contactEmail: moveData.contactemail,
-      paymentPreferences: moveData.paymentpreferences,
-      followUpServices: moveData.followupservices,
-      indemnityAgreement: moveData.indemnityagreement,
-      timestamp: new Date(),
-    };
-
-    try {
-      await setDoc(moveRef, moveDataToSave, { merge: true });
-      console.log("Move data saved/updated in Firestore:", moveDataToSave);
-      return newMoveId;
-    } catch (error) {
-      console.error("Error saving/updating move data in Firestore:", error);
-      throw new Error("Failed to save/update move data in Firestore");
+  // Update User Profile
+  const updateProfile = useCallback(async (updatedData) => {
+    if (!currentUser.uid) {
+      throw new Error('No authenticated user');
     }
-  }, []);
-
-  // Delete move data from Firestore
-  const deleteMoveDataFromFirestore = useCallback(async (moveId) => {
-    if (!moveId) throw new Error("Invalid moveId");
 
     try {
-      const moveRef = doc(db, "Movedata", moveId);
-      await deleteDoc(moveRef);
-      console.log("Move data deleted from Firestore for moveId:", moveId);
+      const userDocRef = doc(db, 'users', currentUser.uid);
+      await setDoc(userDocRef, 
+        { 
+          ...profile, 
+          ...updatedData,
+          updatedAt: new Date() 
+        }, 
+        { merge: true }
+      );
+
+      setProfile(prev => ({
+        ...prev,
+        ...updatedData
+      }));
+
       return true;
     } catch (error) {
-      console.error("Error deleting move data from Firestore:", error);
-      throw new Error("Failed to delete move data from Firestore");
+      console.error('Profile update failed:', error);
+      return false;
     }
-  }, []);
+  }, [currentUser, profile]);
 
-  // Listen for authentication state changes
+  // Logout Method
+  const logout = useCallback(async () => {
+    try {
+      await auth.signOut();
+      setCurrentUser(INITIAL_USER_STATE);
+      setProfile(INITIAL_PROFILE_DATA);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }, [auth]);
+
+ 
+  // Authentication Listener
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-        });
-        try {
-          const token = await firebaseUser.getIdToken();
-          setAccessToken(token);
-          fetchUserData(firebaseUser.uid); // Fetch user data after login
-        } catch (error) {
-          console.error("Failed to fetch access token:", error);
-        }
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const sanitizedUser = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL
+        };
+
+        setCurrentUser(sanitizedUser);
+        setIsAuthenticated(true);
+        await fetchUserProfile(user.uid);
       } else {
-        setUser(null);
-        setAccessToken(null);
-        setFormData(defaultFormData); // Reset form data on logout
+        setCurrentUser(INITIAL_USER_STATE);
+        setProfile(INITIAL_PROFILE_DATA);
+        setIsAuthenticated(false);
       }
-      setLoading(false);
+
+      setIsLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup subscription
-  }, [fetchUserData]);
+    return () => unsubscribe();
+  }, [auth, fetchUserProfile]);
 
-  // Memoized context value to optimize performance
-  const contextValue = useMemo(
-    () => ({
-      user,
-      accessToken,
-      formData,
-      loading,
-      updateFormData,
-      fetchUserData,
-      saveMoveDataToFirestore,
-      deleteMoveDataFromFirestore,
-    }),
-    [
-      user,
-      accessToken,
-      formData,
-      loading,
-      updateFormData,
-      fetchUserData,
-      saveMoveDataToFirestore,
-      deleteMoveDataFromFirestore,
-    ]
-  );
+  // Memoized Context Value
+  const contextValue = useMemo(() => ({
+    currentUser,
+    profile,
+    isAuthenticated,
+    isLoading,
+    updateProfile,
+    logout
+  }), [
+    currentUser, 
+    profile, 
+    isAuthenticated, 
+    isLoading, 
+    updateProfile, 
+    logout
+  ]);
 
   return (
     <UserContext.Provider value={contextValue}>
-      {children}
+      {!isLoading && children}
     </UserContext.Provider>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

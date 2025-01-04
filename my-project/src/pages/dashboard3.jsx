@@ -5,7 +5,7 @@ import RecentActivity from '../component/RecentActivity';
 import Footer from '../component/Footer';
 import HeroSectiondashboard from '../component/Dash3hero';
 import { useNavigate } from 'react-router-dom';
-import useUser from "../config/hooks/useUser";
+import {useUser} from "../config/hooks/useUser";
 import useAuth from "../config/hooks/useAuth";
 import { Link } from 'react-router-dom';
 

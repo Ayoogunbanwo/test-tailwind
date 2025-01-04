@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { BellIcon, ChevronDown, TruckIcon } from 'lucide-react';
-import useUser from "../config/hooks/useUser";
+import {useUser} from "../config/hooks/useUser";
 import NotificationsPanel from '../component/NotificationPanel';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
