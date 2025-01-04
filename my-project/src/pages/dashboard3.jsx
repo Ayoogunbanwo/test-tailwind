@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
-  const { profile, loading, formData } = useUser();
+  const { profile} = useUser();
   const { signout } = useAuth();
 
   const isLoggedIn = !!profile;
