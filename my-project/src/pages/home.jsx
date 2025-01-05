@@ -5,7 +5,6 @@ import Footer from "../component/footer";
 import HeroSection from "../component/hero section";
 import Testimonials from "../component/Testimonialcontainer";
 import Appsoon from "../component/Mobileapp";
-import Howitworks from "../component/howitworks";
 import imgstep1 from "../assets/Wavy_Bus-09_Single-10 1.png";
 import imgstep2 from "../assets/man-moving-5-stars.png";
 import imgstep3 from "../assets/image 3.png";

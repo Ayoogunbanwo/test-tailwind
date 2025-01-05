@@ -84,6 +84,10 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
+
+
+
+
   // Update User Profile
   const updateProfile = useCallback(async (updatedData) => {
   if (!currentUser?.uid) {
@@ -111,6 +115,10 @@ export const UserProvider = ({ children }) => {
     throw error;
   }
 }, [currentUser]);
+
+  
+  
+  
 
   // Logout Method
   const logout = useCallback(async () => {

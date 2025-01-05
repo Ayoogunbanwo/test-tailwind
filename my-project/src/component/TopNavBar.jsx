@@ -70,7 +70,7 @@ const TopNavBar = () => {
     <div className="bg-white border-b sticky top-0 z-40 w-full h-16">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="#" className="flex items-center gap-3 group">
               <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transition-transform group-hover:rotate-12">
                 <Truck className="h-6 w-6 text-white" />
               </div>
