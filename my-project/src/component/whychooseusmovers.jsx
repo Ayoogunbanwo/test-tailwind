@@ -39,7 +39,7 @@ const WhyChooseUsmovers = () => {
             Why Choose Us
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
-            Drive Your Future: Join Our App and Start Earning with Every Move!
+            Simple onboarding, steady work, weekly payouts - start earning today!
           </p>
         </div>
         
