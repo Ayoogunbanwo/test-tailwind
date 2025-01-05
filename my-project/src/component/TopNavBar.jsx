@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import {  db } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../config/hooks/useAuth';
 
 const TopNavBar = () => {
   const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [notifications, setNotifications] = useState([]);
-  const { uid, profile, logout } = useUser();
+  const { uid, profile } = useUser();
+  const { signout } = useAuth();
   const navigate = useNavigate();
   
 
@@ -48,7 +50,7 @@ const TopNavBar = () => {
   [notifications]);
 
    const handleLogout = () => {
-    logout();
+    signout();
     localStorage.removeItem("authToken"); 
     navigate("/customer");
   };

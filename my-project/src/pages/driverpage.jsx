@@ -26,7 +26,7 @@ const navigate = useNavigate();
   };
 
   const Driverbuttons = [
-    { to: "/signup", text: "Start Driving", isPrimary: false },
+    { to: "/signup", text: "Start Driving", isPrimary: true },
   ];
   
 

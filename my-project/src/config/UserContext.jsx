@@ -119,7 +119,7 @@ export const UserProvider = ({ children }) => {
   
   
   
-
+  
   // Logout Method
   const logout = useCallback(async () => {
     try {

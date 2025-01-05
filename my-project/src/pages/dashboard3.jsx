@@ -22,12 +22,14 @@ const CustomerDashboard = () => {
     navigate("/customer");
   };
 
+console.log(profile);
+
   return (
-    <div className="min-h-screen" >
+    <div className="min-h-screen p-8" >
       <header>
         <TopNavBar />
       </header>
-      <main className="min-h-screen mx-auto p-8">  
+      <main className="min-h-screen">  
         <HeroSectiondashboard
           isLoggedIn={isLoggedIn}
           firstname={profile?.firstName || "Guest"}
