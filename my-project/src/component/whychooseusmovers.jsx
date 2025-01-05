@@ -13,16 +13,7 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 
 const WhyChooseUsmovers = () => {
   const features = [
-    {
-      icon: CheckCircle,
-      title: "Professional Excellence",
-      description: "Our team of certified professionals brings years of expertise to every project, ensuring highest quality standards and exceptional results."
-    },
-    {
-      icon: Award,
-      title: "Industry Recognition",
-      description: "Award-winning services trusted by leading companies worldwide. Our track record speaks for itself with numerous accolades and satisfied clients."
-    },
+  
     {
       icon: Zap,
       title: "Swift Execution",
@@ -38,11 +29,6 @@ const WhyChooseUsmovers = () => {
       title: "24/7 Support",
       description: "Round-the-clock assistance ensures you're never left waiting. Our dedicated support team is always ready to help you succeed."
     },
-    {
-      icon: Shield,
-      title: "Guaranteed Results",
-      description: "We stand behind our work with solid guarantees. Your satisfaction is assured with our commitment to excellence and proven methodology."
-    }
   ];
 
   return (
@@ -52,8 +38,8 @@ const WhyChooseUsmovers = () => {
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Why Choose Us
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover how our expertise and dedication can transform your business with innovative solutions and unparalleled service.
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
+            Drive Your Future: Join Our App and Start Earning with Every Move!
           </p>
         </div>
         

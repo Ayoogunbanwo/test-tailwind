@@ -31,11 +31,10 @@ const navigate = useNavigate();
   
 
   return (
-    <div className="h-screen overflow-auto">
+    <div className="h-screen p-4">
         <header>
         <NavBar isLoggedIn={false} onLogout={handleLogout} />
         <DriveIncome imageSrc={Driveimg} buttons={Driverbuttons}></DriveIncome>
-    
        </header>
 
 
