@@ -7,6 +7,7 @@ import HeroSectiondashboard from '../component/Dash3hero';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../config/useUser';
 import { Link } from 'react-router-dom';
+import Appsoon from '../component/Mobileapp';
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
@@ -122,6 +123,7 @@ const CustomerDashboard = () => {
             </div>
           </div>
         </section>
+        <Appsoon mainText="Get Moving Today" descriptionText="Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move or a big relocation, we've got you covered. Download the app now to get started or reach out to our support team for any questions." />
       </main>
       <footer>
         <Footer />
