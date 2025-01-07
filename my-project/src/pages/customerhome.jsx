@@ -16,6 +16,7 @@ import VANIMAGE from "../assets/Vanimage.jpg";
 import Testimonials from "../component/Testimonialcontainer";
 import Appsoon from "../component/Mobileapp";
 import Howitworks from "../component/howitworks";
+import ProvinceSelector from "../component/province";
 
 const images = {
   step1: imgstep1,
@@ -103,6 +104,7 @@ const Customerpage = () => {
         </div>
         <Testimonials className="mx-auto" />
         <Appsoon mainText="Get Moving Today" descriptionText="Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move or a big relocation, we've got you covered. Download the app now to get started or reach out to our support team for any questions." />
+        <ProvinceSelector></ProvinceSelector>
       </main>
 
       <footer>

@@ -12,6 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import ServicesSection from "../component/Services";
 import ProductCarousel from "../component/Carousel";
 import ProcessFlow from "../component/howitworksmovers";
+import ProvinceSelector from "../component/province";
 
 
 const images = {
@@ -48,6 +49,7 @@ const navigate = useNavigate();
         <ProductCarousel />
         <Testimonials />
         <Appsoon mainText="Get Moving Today" descriptionText="Take the hassle out of moving with the New Mover App. Whether you're planning a short distance move or a big relocation, we've got you covered. Download the app now to get started or reach out to our support team for any questions." />
+       <ProvinceSelector></ProvinceSelector>
       </main>
       
       <footer>

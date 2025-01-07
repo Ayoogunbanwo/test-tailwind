@@ -1,9 +1,19 @@
-import React from 'react';
-import { Truck, Shield, Clock, CreditCard } from 'lucide-react';
+import React, { useState } from 'react';
+import { Truck, Shield, Clock, CreditCard, Search, MapPin } from 'lucide-react';
 import img from '../assets/Dashboard.jpg';
 import { Link } from 'react-router-dom';
 
 export default function Hero() {
+  const [location, setLocation] = useState('');
+  const [searchStatus, setSearchStatus] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Add your search logic here
+    setSearchStatus('Searching for drivers near you...');
+    setTimeout(() => setSearchStatus(''), 3000);
+  };
+
   return (
     <div className="relative bg-gradient-to-br from-white to-teal-50 mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
@@ -16,6 +26,34 @@ export default function Hero() {
             <p className="text-gray-600 text-lg">
               Your reliable partner for hassle-free moving and delivery
             </p>
+
+            {/* New Search Section */}
+            <div className="max-w-xl">
+              <div className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+                <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1 relative">
+                    <MapPin className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      placeholder="Enter your location"
+                      className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="flex items-center justify-center gap-2 bg-teal-500 text-white px-6 py-3 rounded-full hover:bg-teal-600 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 whitespace-nowrap"
+                  >
+                    <Search className="w-4 h-4" />
+                    Find Drivers
+                  </button>
+                </form>
+                {searchStatus && (
+                  <p className="text-teal-600 mt-2 text-sm pl-4">{searchStatus}</p>
+                )}
+              </div>
+            </div>
             
             <div className="flex flex-wrap gap-4">
               <Link to="/signin">
@@ -28,7 +66,12 @@ export default function Hero() {
                   Join as Driver
                 </button>
               </Link>
-              </div>
+              <Link to="/movers">
+                <button className="border-2 border-teal-500 text-teal-500 px-8 py-3 rounded-full hover:bg-teal-50 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                  Join as Mover
+                </button>
+              </Link>
+            </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-12">
               <div className="text-center p-4 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300">
