@@ -21,7 +21,7 @@ const TruckitComingSoon = () => {
         {/* Header */}
         <div className="flex items-center justify-center mb-16">
           <div className="flex items-center space-x-3">
-            <div className="bg-emerald-500 p-2 rounded-xl">
+            <div className="bg-teal-500 p-2 rounded-xl">
               <TruckIcon className="w-8 h-8 text-white" />
             </div>
             <span className="text-2xl font-bold text-gray-900">Truckit</span>
@@ -50,7 +50,7 @@ const TruckitComingSoon = () => {
                   placeholder="Enter your email for early access"
                   className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
-                <button className="px-6 py-3 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-colors">
+                <button className="px-6 py-3 bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition-colors">
                   Notify Me
                 </button>
               </div>
@@ -63,7 +63,7 @@ const TruckitComingSoon = () => {
                   key={index}
                   className="flex items-center space-x-3 p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <div className="text-emerald-500">
+                  <div className="text-teal-500">
                     {feature.icon}
                   </div>
                   <span className="text-sm font-medium text-gray-700">{feature.text}</span>
@@ -83,7 +83,7 @@ const TruckitComingSoon = () => {
                 {/* App Screen Content */}
                 <div className="bg-white pt-6 pb-8 px-6 h-[600px]">
                   <div className="flex flex-col items-center justify-center h-full space-y-8">
-                    <div className="bg-emerald-500 p-4 rounded-2xl">
+                    <div className="bg-teal-500 p-4 rounded-2xl">
                       <TruckIcon className="w-12 h-12 text-white" />
                     </div>
                     <h2 className="text-xl font-bold text-center text-gray-900">
@@ -93,7 +93,7 @@ const TruckitComingSoon = () => {
                       Your trusted moving companion
                     </p>
                     <div className="w-full">
-                      <button className="w-full py-3 bg-emerald-500 text-white rounded-xl font-medium">
+                      <button className="w-full py-3 bg-teal-500 text-white rounded-xl font-medium">
                         Get Started
                       </button>
                     </div>
