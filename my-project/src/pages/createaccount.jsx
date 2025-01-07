@@ -1,64 +1,72 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddressInput from "../component/address";
-import { Truck } from "lucide-react";
 import { useUser } from "../config/useUser";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { Link } from "react-router-dom";
+import { db } from "../config/firebase"; // Import Firestore instance
+import { doc, setDoc } from "firebase/firestore"; // Firestore methods
+
+const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_URL;
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 const CreateAccount = () => {
-  const { updateProfile } = useUser(); // Import updateProfile
+  const { updateProfile } = useUser();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
+  const [postalCode, setpostalCode] = useState("");
   const [address, setAddress] = useState({
     street: "",
     apartment: "",
+    city: "",
     province: "",
     country: "",
+    postalCode: "",
   });
   const [role, setRole] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null); // Preview
+  const [imageURL, setImageURL] = useState(""); // Cloudinary URL
+  const [isImageUploading, setIsImageUploading] = useState(false); // Image upload status
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Function to set a cookie with expiry
-  const setCookie = (name, value, days) => {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
-    const expires = "expires=" + date.toUTCString();
-    document.cookie = `${name}=${value}; ${expires}; path=/`;
-  };
-
-  // Function to get a cookie by name
-  const getCookie = (name) => {
-    const cookieName = name + "=";
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i].trim();
-      if (cookie.startsWith(cookieName)) {
-        return cookie.substring(cookieName.length, cookie.length);
-      }
-    }
-    return "";
-  };
-
-  // Function to delete a cookie by name
-  const deleteCookie = (name) => {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  };
-
-  const handleFirstNameChange = (e) => setFirstName(e.target.value);
-  const handleLastNameChange = (e) => setLastName(e.target.value);
-  const handleRoleChange = (e) => setRole(e.target.value);
-
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setProfileImage(reader.result);
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // Show preview while uploading
+    const reader = new FileReader();
+    reader.onloadend = () => setProfileImage(reader.result);
+    reader.readAsDataURL(file);
+
+    setIsImageUploading(true);
+
+    // Prepare Cloudinary upload
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    try {
+      const response = await fetch(CLOUDINARY_URL, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.secure_url) {
+        setImageURL(data.secure_url); // Save the Cloudinary URL
+        console.log("Image URL:", data.secure_url); // Log the image URL
+        alert("Image uploaded successfully!");
+      } else {
+        alert("Failed to upload image. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Error uploading image. Please check your connection.");
+    } finally {
+      setIsImageUploading(false);
     }
   };
 
@@ -66,9 +74,9 @@ const CreateAccount = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validate that all fields are filled out
+    // Validate required fields
     if (!firstName || !lastName || !phone || !address.street || !address.country || !role) {
-      alert("Please fill out all fields");
+      alert("Please fill out all required fields");
       setIsLoading(false);
       return;
     }
@@ -80,21 +88,26 @@ const CreateAccount = () => {
       phone,
       address,
       role,
-      profileImage: profileImage || "https://avatar.iran.liara.run/public/boy",
+      profileImage: imageURL || "https://avatar.iran.liara.run/public/boy", // Use default if no image
+      createdAt: new Date(),
     };
 
     try {
-      // Update user profile
-      await updateProfile(profileData);
+      // Save data to Firebase Firestore
+      const userDoc = doc(db, "users", phone); // Use phone as document ID
+      await setDoc(userDoc, profileData);
 
-      // Set a cookie with 1-day expiry
-      setCookie("registeredThroughLanding", "true", 1);
+      console.log("Profile data saved to Firestore:", profileData); // Log the profile data
 
-      // Redirect to homepage
-      navigate("/signin");
+      // Optionally update local user profile
+      if (updateProfile) {
+        await updateProfile(profileData);
+      }
+
+      navigate("/signin"); // Redirect to sign-in page
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Error while updating profile.");
+      console.error("Error saving user data to Firestore:", error);
+      alert("Error occurred while creating your account.");
     } finally {
       setIsLoading(false);
     }
@@ -105,9 +118,7 @@ const CreateAccount = () => {
       <div className="w-full max-w-lg px-6 py-8 bg-white rounded-xl shadow-lg">
         <div className="flex items-center justify-center mb-6">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl">
-              <Truck className="h-6 w-6 text-white" />
-            </div>
+            <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl"></div>
             <span className="font-bold text-xl bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
               Truckit
             </span>
@@ -121,7 +132,7 @@ const CreateAccount = () => {
             type="text"
             value={firstName}
             required
-            onChange={handleFirstNameChange}
+            onChange={(e) => setFirstName(e.target.value)}
             placeholder="First Name"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
@@ -129,7 +140,7 @@ const CreateAccount = () => {
             type="text"
             value={lastName}
             required
-            onChange={handleLastNameChange}
+            onChange={(e) => setLastName(e.target.value)}
             placeholder="Last Name"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
@@ -144,44 +155,31 @@ const CreateAccount = () => {
           <select
             value={role}
             required
-            onChange={handleRoleChange}
+            onChange={(e) => setRole(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
           >
-            <option value="" disabled>Select Role</option>
+            <option value="" disabled>
+              Select Role
+            </option>
             <option value="Customer">Customer</option>
             <option value="Driver">Driver</option>
             <option value="Mover">Mover</option>
           </select>
-          <div className="w-full">
-            <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700 mb-1">
-              Profile Image (Optional)
-            </label>
-            <div className="flex items-center gap-4">
-              <input
-                type="file"
-                id="profileImage"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <label
-                htmlFor="profileImage"
-                className="cursor-pointer bg-gray-100 p-2 border border-gray-300 rounded-lg hover:bg-gray-200 transition"
-              >
-                Choose File
-              </label>
-              <span className="text-sm text-gray-500">
-                {profileImage ? "Image Selected" : "No image chosen"}
-              </span>
-            </div>
-            {profileImage && (
-              <img
-                src={profileImage}
-                alt="Profile Preview"
-                className="w-24 h-24 mt-4 rounded-full object-cover border-2 border-teal-500"
-              />
-            )}
-          </div>
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
+          />
+          {profileImage && (
+            <img
+              src={profileImage}
+              alt="Preview"
+              className="w-24 h-24 mt-4 rounded-full object-cover border-2 border-teal-500"
+            />
+          )}
+          {isImageUploading && <p className="text-sm text-teal-500 mt-2">Uploading image...</p>}
           <button
             type="submit"
             disabled={isLoading}

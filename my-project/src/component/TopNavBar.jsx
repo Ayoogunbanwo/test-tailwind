@@ -3,55 +3,71 @@ import { Bell, ChevronDown, Truck, LogOut, User } from 'lucide-react';
 import { useUser } from '../config/useUser';
 import { Link } from 'react-router-dom';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import {  db } from '../config/firebase';
+import { db } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../config/hooks/useAuth';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const TopNavBar = () => {
+const TopNavBar = ({ className = "", logo = "Truckit", userDetailsOverride = null }) => {
   const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { uid, profile } = useUser();
   const { signout } = useAuth();
   const navigate = useNavigate();
-  
 
   const userDetails = useMemo(() => ({
     firstName: profile?.firstName || 'Guest',
     email: profile?.email || '',
-    profileImage: profile?.profileImage || "https://avatar.iran.liara.run/public/boy"
-  }), [profile]);
+    profileImage: profile?.profileImage || "https://avatar.iran.liara.run/public/boy",
+    ...userDetailsOverride,
+  }), [profile, userDetailsOverride]);
 
   useEffect(() => {
     if (!uid) return;
 
-    const notificationsRef = collection(db, 'notifications');
-    const q = query(notificationsRef, where('uid', '==', uid));
+    const fetchNotifications = async () => {
+      setIsLoading(true);
+      try {
+        const notificationsRef = collection(db, 'notifications');
+        const q = query(notificationsRef, where('uid', '==', uid));
 
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        const notificationsData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setNotifications(notificationsData);
-      },
-      (error) => {
+        const unsubscribe = onSnapshot(
+          q,
+          (snapshot) => {
+            const notificationsData = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setNotifications(notificationsData);
+          },
+          (error) => {
+            console.error('Error fetching notifications:', error);
+            toast.error('Failed to fetch notifications. Please try again later.');
+          }
+        );
+
+        return () => unsubscribe();
+      } catch (error) {
         console.error('Error fetching notifications:', error);
+        toast.error('Failed to fetch notifications. Please try again later.');
+      } finally {
+        setIsLoading(false);
       }
-    );
+    };
 
-    return () => unsubscribe();
+    fetchNotifications();
   }, [uid]);
 
   const unreadNotificationsCount = useMemo(() => 
     notifications.filter((notification) => !notification.isRead).length,
   [notifications]);
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     signout();
-    localStorage.removeItem("authToken"); 
+    localStorage.removeItem("authToken");
     navigate("/customer");
   };
 
@@ -69,17 +85,17 @@ const TopNavBar = () => {
   }, []);
 
   return (
-    <div className="bg-white border-b sticky top-0 z-40 w-full h-16">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            {/* Logo */}
-            <Link to="#" className="flex items-center gap-3 group">
-              <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transition-transform group-hover:rotate-12">
-                <Truck className="h-6 w-6 text-white" />
-              </div>
-              <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
-                Truckit
-              </span>
-            </Link>
+    <div className={`bg-white border-b sticky top-0 z-40 w-full h-16 ${className}`}>
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="#" className="flex items-center gap-3 group">
+          <div className="bg-gradient-to-r from-teal-500 to-teal-600 p-2 rounded-xl transition-transform group-hover:rotate-12">
+            <Truck className="h-6 w-6 text-white" />
+          </div>
+          <span className="font-bold bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent text-xl">
+            {logo}
+          </span>
+        </Link>
 
         {/* Actions */}
         <div className="flex items-center gap-6">
@@ -100,15 +116,15 @@ const TopNavBar = () => {
             </button>
             {isNotificationsPanelOpen && (
               <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-100">
-                {/* You can implement your notifications panel here */}
                 <div className="p-4">
                   <h3 className="font-medium text-gray-900">Notifications</h3>
-                  {notifications.length === 0 ? (
+                  {isLoading ? (
+                    <p className="text-gray-500 text-sm mt-2">Loading notifications...</p>
+                  ) : notifications.length === 0 ? (
                     <p className="text-gray-500 text-sm mt-2">No notifications</p>
                   ) : (
                     notifications.map(notification => (
                       <div key={notification.id} className="py-2">
-                        {/* Render your notification content here */}
                         <p className="text-sm">{notification.message}</p>
                       </div>
                     ))

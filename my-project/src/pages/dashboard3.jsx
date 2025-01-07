@@ -8,28 +8,31 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../config/useUser';
 import { Link } from 'react-router-dom';
 
-
 const CustomerDashboard = () => {
   const navigate = useNavigate();
-  const { profile,logout } = useUser();
-
+  const { profile, logout } = useUser();
 
   const isLoggedIn = !!profile;
 
   const handleLogout = () => {
-    logout();
-    localStorage.removeItem("authToken"); 
-    navigate("/customer");
+    if (window.confirm('Are you sure you want to logout?')) {
+      logout();
+      localStorage.removeItem("authToken");
+      navigate("/customer");
+    }
   };
 
-console.log(profile);
+  if (!isLoggedIn) {
+    navigate("/customer");
+    return null;
+  }
 
   return (
-    <div className="min-h-screen p-8" >
+    <div className="min-h-screen p-8">
       <header>
         <TopNavBar />
       </header>
-      <main className="min-h-screen">  
+      <main className="min-h-screen">
         <HeroSectiondashboard
           isLoggedIn={isLoggedIn}
           firstname={profile?.firstName || "Guest"}
