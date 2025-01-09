@@ -42,7 +42,7 @@ export const SessionProvider = ({ children }) => {
         const sessionData = {
             lastActivity: Date.now(),
             user: userData,
-            role: userData.role || 'user', // Example: Add user role
+            role: userData.role || 'Customer', // Example: Add user role
             preferences: userData.preferences || {} // Example: Add user preferences
         };
         localStorage.setItem('session', JSON.stringify(sessionData));

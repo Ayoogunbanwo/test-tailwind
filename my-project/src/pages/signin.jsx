@@ -3,104 +3,84 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TruckIcon } from 'lucide-react';
 import googlelogo from '../assets/icons8-google-50.png';
 import useAuth from "../config/hooks/useAuth";
-import { useUser } from '../config/useUser'; // Ensure this hook is correctly implemented
-import { auth } from '../config/firebase';
 import { setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
-
-// Validation functions
-const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const validatePassword = (password) =>
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/-]).{8,}$/.test(password);
+import { useSessionTimeout } from '../config/useSessionTimeout';
+import { validateEmail, validatePassword, getErrorMessage } from '../authutils/utils';
+import { auth } from '../config/firebase';
 
 const SignIn = () => {
   const { signinWithEmail, handleGoogleSignin } = useAuth();
-  const { profile, setUser } = useUser(); // Access profile and setUser from UserContext
+  const navigate = useNavigate();
+  const { resetTimeout } = useSessionTimeout(30);
 
+  // State variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigate("/CustomerDashboard");
-      }
-    });
-
-    return () => unsubscribe();
-  }, [navigate]);
-
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
+  // Handle email/password sign-in
   const handleSignin = async (e) => {
     e.preventDefault();
 
+    // Validate email
     if (!validateEmail(email)) {
-      setError("Invalid email format");
+      setError("Invalid email format.");
       return;
     }
 
-    if (!validatePassword(password)) {
-      setError("Password must be at least 8 characters long and contain at least one number and one special character.");
+    // Validate password
+    const passwordErrors = validatePassword(password);
+    if (Array.isArray(passwordErrors)) {
+      setError(passwordErrors.join(' '));
       return;
     }
 
     setError("");
-    setLoading(true);
+    setEmailLoading(true);
 
     try {
-      const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
-      await setPersistence(auth, persistence);
-
-      const currentUser = await signinWithEmail(email, password);
-      console.log("User signed in", currentUser);
-
-      if (setUser) {
-        setUser(currentUser); // Update the user context
-      }
-
-      setEmail("");
-      setPassword("");
+      // Sign in with email and password
+      await signinWithEmail(email, password);
+      resetTimeout();
       navigate("/CustomerDashboard");
     } catch (error) {
-      console.error("Signin failed:", error);
-      setError(error.message || "Signin failed, please try again.");
+      setError(getErrorMessage(error));
     } finally {
-      setLoading(false);
+      setEmailLoading(false);
     }
   };
 
+  // Handle Google sign-in
   const handleGoogleLogin = async () => {
     try {
-      setLoading(true);
-      const result = await handleGoogleSignin();
-
-      if (result.error) {
-        setError(result.error);
-        return;
-      }
-
-      if (result.user) {
-        console.log("Google login successful:", result.user);
-        if (setUser) {
-          setUser(result.user); // Update the user context
-        }
-        navigate("/CustomerDashboard");
-      }
+      setGoogleLoading(true);
+      await handleGoogleSignin();
+      resetTimeout();
+      navigate("/CustomerDashboard");
     } catch (error) {
-      console.error("Error during Google sign-in:", error);
-      setError("An error occurred during Google sign-in. Please try again.");
+      setError(getErrorMessage(error));
     } finally {
-      setLoading(false);
+      setGoogleLoading(false);
     }
   };
+
+  // Set session persistence based on "Remember Me"
+  useEffect(() => {
+    const setAuthPersistence = async () => {
+      const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+      await setPersistence(auth, persistence);
+    };
+    setAuthPersistence();
+  }, [rememberMe]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-teal-50 to-blue-50 p-8">
@@ -118,7 +98,6 @@ const SignIn = () => {
         </div>
 
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Sign In</h1>
-
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
         <form onSubmit={handleSignin} className="space-y-6">
@@ -140,7 +119,11 @@ const SignIn = () => {
               className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 ${
                 email && !validateEmail(email) ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-teal-500"
               }`}
+              aria-describedby="email-error"
             />
+            {email && !validateEmail(email) && (
+              <p id="email-error" className="text-red-500 text-sm mt-1">Invalid email format.</p>
+            )}
           </div>
 
           {/* Password Input */}
@@ -162,6 +145,7 @@ const SignIn = () => {
                 className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 ${
                   password && !validatePassword(password) ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-teal-500"
                 }`}
+                aria-describedby="password-errors"
               />
               <button
                 type="button"
@@ -172,10 +156,21 @@ const SignIn = () => {
                 {isPasswordVisible ? 'Hide' : 'Show'}
               </button>
             </div>
-            {password && !validatePassword(password) && (
-              <p className="text-red-500 text-sm mt-1">
-                Password must be at least 8 characters long and contain at least one number and one special character.
-              </p>
+            {password && (
+              <div id="password-errors" className="text-sm text-gray-600 mt-1">
+                <p className={password.length >= 8 ? 'text-green-500' : 'text-red-500'}>
+                  {password.length >= 8 ? '✓' : '✗'} At least 8 characters
+                </p>
+                <p className={/[A-Za-z]/.test(password) ? 'text-green-500' : 'text-red-500'}>
+                  {/[A-Za-z]/.test(password) ? '✓' : '✗'} Contains a letter
+                </p>
+                <p className={/\d/.test(password) ? 'text-green-500' : 'text-red-500'}>
+                  {/\d/.test(password) ? '✓' : '✗'} Contains a number
+                </p>
+                <p className={/[!@#$%^&*()_+={}\[\]:;"'<>,.?/-]/.test(password) ? 'text-green-500' : 'text-red-500'}>
+                  {/[!@#$%^&*()_+={}\[\]:;"'<>,.?/-]/.test(password) ? '✓' : '✗'} Contains a special character
+                </p>
+              </div>
             )}
           </div>
 
@@ -187,6 +182,7 @@ const SignIn = () => {
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
                 className="form-checkbox h-4 w-4 text-teal-600 rounded focus:ring-teal-500"
+                aria-label="Remember Me"
               />
               <span className="text-sm text-gray-700">Remember Me</span>
             </label>
@@ -198,13 +194,13 @@ const SignIn = () => {
           {/* Sign In Button */}
           <button
             type="submit"
-            disabled={loading}
-            aria-label={loading ? "Signing in..." : "Sign in"}
+            disabled={emailLoading}
+            aria-label={emailLoading ? "Signing in..." : "Sign in"}
             className={`${
-              loading ? "bg-teal-300 cursor-not-allowed" : "bg-teal-600 hover:bg-teal-700"
+              emailLoading ? "bg-teal-300 cursor-not-allowed" : "bg-teal-600 hover:bg-teal-700"
             } text-white font-bold py-3 rounded-lg w-full transition duration-300`}
           >
-            {loading ? "Signing in..." : "Sign in"}
+            {emailLoading ? "Signing in..." : "Sign in"}
           </button>
 
           {/* Divider */}
@@ -217,14 +213,15 @@ const SignIn = () => {
           {/* Google Sign-In Button */}
           <button
             type="button"
-            disabled={loading}
+            disabled={googleLoading}
             onClick={handleGoogleLogin}
             className={`${
-              loading ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-50"
+              googleLoading ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-50"
             } flex items-center justify-center text-gray-700 font-medium py-3 rounded-lg text-base border border-gray-300 shadow-sm gap-2 w-full transition duration-300`}
+            aria-label={googleLoading ? "Signing in with Google..." : "Sign in with Google"}
           >
             <img src={googlelogo} alt="Google Logo" className="w-6 h-6" />
-            <span>{loading ? "Signing in..." : "Sign in with Google"}</span>
+            <span>{googleLoading ? "Signing in..." : "Sign in with Google"}</span>
           </button>
 
           {/* Sign Up Link */}

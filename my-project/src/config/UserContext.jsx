@@ -85,9 +85,6 @@ export const UserProvider = ({ children }) => {
   }, []);
 
 
-
-
-
   // Update User Profile
   const updateProfile = useCallback(async (updatedData) => {
   if (!currentUser?.uid) {
